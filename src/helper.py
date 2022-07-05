@@ -8,7 +8,6 @@ def get_tqdm() -> type:
     """Return tqdm.notebook.tqdm if code is being run from a notebook,
     or tqdm.tqdm otherwise"""
 
-    print(is_running_from_ipython())
     if is_running_from_ipython():
         tqdm_ = notebook_tqdm
     else:
