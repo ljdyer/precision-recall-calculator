@@ -167,8 +167,8 @@ class PrecisionRecallCalculator:
         """Calculate precision, recall, and F-score from a confusion matrix."""
 
         true_pos = float(cm[0][0])
-        false_pos = float(cm[0][1])
-        false_neg = float(cm[1][0])
+        false_pos = float(cm[1][0])
+        false_neg = float(cm[0][1])
         try:
             precision = true_pos / (true_pos + false_pos)
         except ZeroDivisionError:
