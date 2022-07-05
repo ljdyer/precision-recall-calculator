@@ -120,7 +120,6 @@ class PrecisionRecallCalculator:
         confusion_matrix_all = sum(
             confusion_matrices[f] for f in self.features)
         confusion_matrices['all'] = confusion_matrix_all
-        print(confusion_matrices)
         return confusion_matrices
 
     # ====================
