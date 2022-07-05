@@ -143,9 +143,9 @@ class PrecisionRecallCalculator:
             print()
             cm = self.confusion_matrices[doc_idx][feature]
             col_index = pd.MultiIndex.from_tuples(
-                [('Hypothesis', 'negative'), ('Hypothesis', 'positive')])
+                [('Hypothesis', 'positive'), ('Hypothesis', 'negative')])
             row_index = pd.MultiIndex.from_tuples(
-                [('Reference', 'negative'), ('Reference', 'positive')])
+                [('Reference', 'positive'), ('Reference', 'negative')])
             display_or_print(pd.DataFrame(
                 cm, index=row_index, columns=col_index))
             print()
@@ -166,9 +166,9 @@ class PrecisionRecallCalculator:
     def precision_recall_fscore_from_cm(self, cm: np.ndarray):
         """Calculate precision, recall, and F-score from a confusion matrix."""
 
-        true_pos = float(cm[1][1])
-        false_pos = float(cm[0][1])
-        false_neg = float(cm[1][0])
+        true_pos = float(cm[0][0])
+        false_pos = float(cm[1][0])
+        false_neg = float(cm[0][1])
         try:
             precision = true_pos / (true_pos + false_pos)
         except ZeroDivisionError:
