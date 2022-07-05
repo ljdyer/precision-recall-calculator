@@ -134,7 +134,7 @@ class PrecisionRecallCalculator:
         self.confusion_matrices['all'] = all_docs
 
     # ====================
-    def show_confusion_matrix(self, doc_idx: Int_or_Str = 'all'):
+    def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
         """Show confusion matrices for each feature, for either a
         single document or the entire corpus."""
 
