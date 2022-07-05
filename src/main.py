@@ -31,7 +31,7 @@ def str_or_list_to_list(str_or_list: Str_or_List) -> list:
 
 
 # ====================
-class PrecisionRecallGetter:
+class PrecisionRecallCalculator:
 
     # ====================
     def __init__(self,
@@ -197,19 +197,3 @@ class PrecisionRecallGetter:
             return FEATURE_DISPLAY_NAMES[feature]
         else:
             return f"'{feature}'"
-
-
-# ====================
-if __name__ == "__main__":
-
-    REFERENCE = ["I like bananas.", 'HAPPY BIRTHDAY', 'SeNTEncE3']
-    HYPOTHESIS = ["i like bananas...", 'happy. birthday,', 'SeNTEncE3']
-    CAPITALISATION = True
-    FEATURE_CHARS = list(' ,.')
-    prg = PrecisionRecallGetter(reference=REFERENCE,
-                                hypothesis=HYPOTHESIS,
-                                capitalisation=CAPITALISATION,
-                                feature_chars=FEATURE_CHARS)
-    # print(prg.get_feature_positions(0))
-    prg.show_confusion_matrix('all')
-    prg.show_precision_recall_fscore('all')
