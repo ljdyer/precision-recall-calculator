@@ -111,8 +111,8 @@ class PrecisionRecallCalculator:
                     features_present[string][-1].append(strings[string].pop(0))
         confusion_matrices = {
             f: confusion_matrix(
-                [f in x for x in features_present['hyp']],
                 [f in x for x in features_present['ref']],
+                [f in x for x in features_present['hyp']],
                 labels=[True, False]
             )
             for f in self.features
@@ -167,8 +167,8 @@ class PrecisionRecallCalculator:
         """Calculate precision, recall, and F-score from a confusion matrix."""
 
         true_pos = float(cm[0][0])
-        false_pos = float(cm[1][0])
-        false_neg = float(cm[0][1])
+        false_pos = float(cm[0][1])
+        false_neg = float(cm[1][0])
         try:
             precision = true_pos / (true_pos + false_pos)
         except ZeroDivisionError:
