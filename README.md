@@ -20,11 +20,11 @@ sys.path.append('precision-recall-calculator/src')
 
 2. Install requirements (if required)
 
-All required libraries are pre-installed by default in Google Colab, so there is no need 
+There is no need to install any libraries in Google Colab, as all required libraries are already pre-installed by default.
 
-If working in a virtual environment, running the following in the src directory:
+If working in a virtual environment, run the following in the src directory:
 
-```python
+python```
 pip install -r requirements.txt
 ```
 
