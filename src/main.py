@@ -39,7 +39,7 @@ tqdm_ = get_tqdm()
 
 # ====================
 def str_or_list_or_series_to_list(
-    input_: Str_or_List_or_Series) -> list:
+     input_: Str_or_List_or_Series) -> list:
 
     if isinstance(input_, str):
         return [input_]
@@ -65,8 +65,8 @@ class PrecisionRecallCalculator:
         Initialize an instance of 
         """
 
-        self.reference = str_or_list_to_list(reference)
-        self.hypothesis = str_or_list_to_list(hypothesis)
+        self.reference = str_or_list_or_series_to_list(reference)
+        self.hypothesis = str_or_list_or_series_to_list(hypothesis)
         if len(self.reference) != len(self.hypothesis):
             raise ValueError(NON_EQUAL_LENGTH_ERROR)
         self.set_feature_chars(feature_chars)

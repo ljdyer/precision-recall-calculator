@@ -13,7 +13,7 @@ import sys
 # Delete precision-recall-calculator folder to ensures that any changes to the repo are reflected
 !rm -rf 'precision-recall-calculator'
 # Clone precision-recall-calculator repo
-!git clone https://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@github.com/ljdyer/precision-recall-calculator.git
+!git clone https://github.com/ljdyer/precision-recall-calculator.git
 # Add precision-recall-calculator to PYTHONPATH
 sys.path.append('precision-recall-calculator/src')
 ```
