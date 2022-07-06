@@ -11,6 +11,7 @@ from helper import display_or_print, get_tqdm
 import numpy as np
 
 Str_or_List = Union[str, list]
+Str_or_List_or_Series = Union[str, list, pd.Series]
 Int_or_Str = Union[int, str]
 
 NON_EQUAL_LENGTH_ERROR = \
@@ -19,12 +20,11 @@ DIFFERENT_CHARS_ERROR = """
     Different characters found between reference and hypothesis strings in \
 document index: {doc_idx}!
     Reference: {ref_str}
-    Hypothesis: {hyp_str}
-    """
+    Hypothesis: {hyp_str}"""
 INIT_COMPLETE_MSG = "Initialisation complete."
-
-
-tqdm_ = get_tqdm()
+REF_OR_HYP_TYPE_ERROR = """
+    reference and hypothesis parameters must have type list, str,
+or pandas.Series"""
 
 FEATURE_DISPLAY_NAMES = {
     'CAPITALISATION': "Capitalisation",
@@ -34,14 +34,21 @@ FEATURE_DISPLAY_NAMES = {
     'all': 'All features'
 }
 
+tqdm_ = get_tqdm()
+
 
 # ====================
-def str_or_list_to_list(str_or_list: Str_or_List) -> list:
+def str_or_list_or_series_to_list(
+    input_: Str_or_List_or_Series) -> list:
 
-    if isinstance(str_or_list, str):
-        return [str_or_list]
+    if isinstance(input_, str):
+        return [input_]
+    elif isinstance(input_, pd.Series):
+        return input_.to_list()
+    elif isinstance(input_, list):
+        return input_
     else:
-        return str_or_list
+        raise TypeError(REF_OR_HYP_TYPE_ERROR)
 
 
 # ====================
@@ -54,6 +61,9 @@ class PrecisionRecallCalculator:
                  capitalisation: bool,
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True):
+        """
+        Initialize an instance of 
+        """
 
         self.reference = str_or_list_to_list(reference)
         self.hypothesis = str_or_list_to_list(hypothesis)
