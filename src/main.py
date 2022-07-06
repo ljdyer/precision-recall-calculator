@@ -14,7 +14,7 @@ DIFFERENT_CHARS_ERROR = \
     Different characters found between reference and hypothesis strings in
     document index: {doc_idx}!
     Reference: {ref_str}
-    Hypothesis: {}
+    Hypothesis: {hyp_str}
     """
 INIT_COMPLETE_MSG = "Initialisation complete."
 
