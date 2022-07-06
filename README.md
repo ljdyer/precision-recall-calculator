@@ -4,7 +4,7 @@ A Python class for calculating precision, recall and F-score metrics for the out
 
 ## Getting started
 
-1. Clone the repository
+### 1. Clone the repository
 
 Recommended method for Google Colab notebooks:
 
@@ -18,7 +18,7 @@ import sys
 sys.path.append('precision-recall-calculator/src')
 ```
 
-2. Install requirements (if required)
+### 2. Install requirements (if required)
 
 There is no need to install any libraries in Google Colab, as all required libraries are already pre-installed by default.
 
@@ -28,7 +28,7 @@ If working in a virtual environment, run the following in the src directory:
 pip install -r requirements.txt
 ```
 
-3. Import PrecisionRecallCalculator class
+### 3. Import PrecisionRecallCalculator class
 
 ```python
 from main import PrecisionRecallCalculator
@@ -48,7 +48,7 @@ class PrecisionRecallCalculator:
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True):
         """
-        Initialize an instance of PrecisionRecallCalculator class
+        Initialize an instance of the PrecisionRecallCalculator class
 
         Required arguments:
         -------------------
@@ -82,3 +82,86 @@ class PrecisionRecallCalculator:
                                             corpus.
         """
 ```
+
+### Example usage:
+
+```python
+RESULTS_DF_PATH = 'drive/MyDrive/Group Assignment/Results/end_to_end.csv'
+results_df_csv = pd.read_csv(RESULTS_DF_PATH)
+reference = results_df_csv['reference'].to_list()
+hypothesis = results_df_csv['model_5_result'].to_list()
+prc_TED = PrecisionRecallCalculator(
+    reference, hypothesis, True, '., ')
+```
+
+<img src="readme-img/init.PNG"></img>
+
+## Displaying precision, recall, and F-score metrics
+
+```python
+    # ====================
+    def show_precision_recall_fscore(self, doc_idx: Int_or_Str = 'all'):
+        """Show precision, recall and F-score for each feature, for
+        either a single document or the entire corpus.
+
+        Optional keyword arguments:
+        ---------------------------
+        doc_idx: Int_or_Str                 Either an integer indicating the
+                                            index of the document to show
+                                            metrics for, or 'all' to show
+                                            metrics for all documents in the
+                                            corpus (the default behaviour)."""
+
+        feature_scores = {
+            self.feature_display_name(feature):
+            self.precision_recall_fscore_from_cm(
+                self.confusion_matrices[doc_idx][feature])
+            for feature in self.features + ['all']}
+        display_or_print(pd.DataFrame(feature_scores).transpose())
+```
+
+### Example usage:
+
+```python
+prc_TED.show_precision_recall_fscore()
+```
+
+<img src="readme-img/metrics.PNG"></img>
+
+## Displaying confusion matrices
+
+```python
+    # ====================
+    def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
+        """Show confusion matrices for each feature, for either a
+        single document or the entire corpus.
+
+        Optional keyword arguments:
+        ---------------------------
+        doc_idx: Int_or_Str                 Either an integer indicating the
+                                            index of the document to show
+                                            confusion matrices for, or 'all'
+                                            to show confusion matrices for
+                                            all documents in the corpus (the
+                                            default behaviour)."""
+
+        for feature in self.features + ['all']:
+            print(self.feature_display_name(feature))
+            print()
+            cm = self.confusion_matrices[doc_idx][feature]
+            col_index = pd.MultiIndex.from_tuples(
+                [('Hypothesis', 'positive'), ('Hypothesis', 'negative')])
+            row_index = pd.MultiIndex.from_tuples(
+                [('Reference', 'positive'), ('Reference', 'negative')])
+            display_or_print(pd.DataFrame(
+                cm, index=row_index, columns=col_index))
+            print()
+```
+
+### Example usage:
+
+```python
+prc_TED.show_confusion_matrices()
+```
+
+<img src="readme-img/confusion_matrices.PNG"></img>
