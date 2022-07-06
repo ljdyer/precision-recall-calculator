@@ -36,5 +36,49 @@ from main import PrecisionRecallCalculator
 
 ## Initializing a class instance
 
+python```
+# ====================
+class PrecisionRecallCalculator:
 
+    # ====================
+    def __init__(self,
+                 reference: Str_or_List_or_Series,
+                 hypothesis: Str_or_List_or_Series,
+                 capitalisation: bool,
+                 feature_chars: Str_or_List,
+                 get_cms_on_init: bool = True):
+        """
+        Initialize an instance of PrecisionRecallCalculator class
 
+        Required arguments:
+        -------------------
+        reference: Str_or_List_or_Series    Either a single string, or a list
+                                            or pandas.Series object of strings
+                                            ('documents') to use as the
+                                            reference corpus.
+        hypothesis: Str_or_List_or_Series   Either a single string, or a list
+                                            or pandas.Series object of strings
+                                            ('documents') to use as the
+                                            hypothesis corpus.
+                                            (Number of documents must be the
+                                            same as reference.)
+        capitalisation: bool                Whether or not to treat
+                                            capitalisation as a feature to be
+                                            assessed.
+        feature_chars: Str_or_List          A string or list of characters
+                                            containing other characters to
+                                            treat as features (e.g. '., ' for
+                                            periods, commas, and spaces.)
+
+        Optional keyword arguments:
+        ---------------------------
+        get_cms_on_init: bool               Whether or not to get confusion
+                                            matrics for all reference/
+                                            hypothesis documents on
+                                            intiialization.
+                                            Set to false and access manually if
+                                            only looking at metrics for a
+                                            subset of documents in a large
+                                            corpus.
+        """
+```
