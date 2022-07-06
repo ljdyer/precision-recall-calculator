@@ -11,7 +11,7 @@ NON_EQUAL_LENGTH_ERROR = \
     "Hypothesis and reference lists must have equal length."
 DIFFERENT_CHARS_ERROR = \
     """
-    Different characters found between reference and hypothesis strings in
+    Different characters found between reference and hypothesis strings in \
     document index: {doc_idx}!
     Reference: {ref_str}
     Hypothesis: {hyp_str}
@@ -115,9 +115,9 @@ class PrecisionRecallCalculator:
                 assert next_char['ref'].lower() == next_char['hyp'].lower()
             except AssertionError:
                 error_msg = DIFFERENT_CHARS_ERROR.format(
-                    doc_idx = doc_idx,
-                    ref_str = ''.join(strings['ref'][:10]),
-                    hyp_str = ''.join(strings['hyp'][:10])
+                    doc_idx=doc_idx,
+                    ref_str=''.join(strings['ref'][:10]),
+                    hyp_str=''.join(strings['hyp'][:10])
                 )
                 raise ValueError(error_msg)
             for string in strings.keys():
