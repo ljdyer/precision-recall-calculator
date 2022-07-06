@@ -93,8 +93,8 @@ class PrecisionRecallCalculator:
         """Get confusion matrics for a single document."""
 
         strings = {
-            'ref': list(self.reference[doc_idx]),
-            'hyp': list(self.hypothesis[doc_idx])
+            'ref': list(self.reference[doc_idx]).strip(),
+            'hyp': list(self.hypothesis[doc_idx]).strip()
         }
         print(strings)
         features_present = {'ref': [], 'hyp': []}
