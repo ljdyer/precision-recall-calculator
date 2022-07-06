@@ -9,6 +9,15 @@ Int_or_Str = Union[int, str]
 
 NON_EQUAL_LENGTH_ERROR = \
     "Hypothesis and reference lists must have equal length."
+DIFFERENT_CHARS_ERROR = \
+    """
+    Different characters found between reference and hypothesis strings in
+    document index: {doc_idx}!
+    Reference: {ref_str}
+    Hypothesis: {}
+    """
+INIT_COMPLETE_MSG = "Initialisation complete."
+
 
 tqdm_ = get_tqdm()
 
@@ -51,7 +60,7 @@ class PrecisionRecallCalculator:
             self.get_confusion_matrices()
             self.get_confusion_matrix_all()
 
-        print("Initialisation complete.")
+        print(INIT_COMPLETE_MSG)
 
     # ====================
     def set_feature_chars(self, feature_chars: Str_or_List):
@@ -105,11 +114,11 @@ class PrecisionRecallCalculator:
             try:
                 assert next_char['ref'].lower() == next_char['hyp'].lower()
             except AssertionError:
-                error_msg = \
-                    "Different characters found between reference and " +\
-                    f"hypothesis strings!\nDocument index: {doc_idx}\n" +\
-                    f"Reference: \"{''.join(strings['ref'][:10])}\\n" +\
-                    f"Hypothesis: \"{''.join(strings['hyp'][:10])}\\n\""
+                error_msg = DIFFERENT_CHARS_ERROR.format(
+                    doc_idx = doc_idx,
+                    ref_str = ''.join(strings['ref'][:10])
+                    hyp_str = ''.join(strings['hyp'][:10])
+                )
                 raise ValueError(error_msg)
             for string in strings.keys():
                 features_present[string].append([])
