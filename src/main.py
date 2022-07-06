@@ -1,3 +1,9 @@
+"""
+main.py
+
+Main module for PrecisionRecallCalculator class
+"""
+
 import pandas as pd
 from typing import Union
 from sklearn.metrics import confusion_matrix
@@ -107,8 +113,8 @@ class PrecisionRecallCalculator:
         features_present = {'ref': [], 'hyp': []}
         while strings['ref'] and strings['hyp']:
             next_char = {
-                'hyp': strings['ref'].pop(0),
-                'ref': strings['hyp'].pop(0)
+                'ref': strings['ref'].pop(0),
+                'hyp': strings['hyp'].pop(0)
             }
             try:
                 assert next_char['ref'].lower() == next_char['hyp'].lower()

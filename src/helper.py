@@ -1,3 +1,9 @@
+"""
+helper.py
+
+Helper functions for PrecisionRecallCalculator class
+"""
+
 from tqdm import tqdm as non_notebook_tqdm
 from tqdm.notebook import tqdm as notebook_tqdm
 from typing import Any
