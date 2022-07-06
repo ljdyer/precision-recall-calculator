@@ -17,13 +17,12 @@ Int_or_Str = Union[int, str]
 NON_EQUAL_LENGTH_ERROR = \
     "Hypothesis and reference lists must have equal length."
 DIFFERENT_CHARS_ERROR = """
-    Different characters found between reference and hypothesis strings in \
-document index: {doc_idx}!
-    Reference: {ref_str}
-    Hypothesis: {hyp_str}"""
+Different characters found between reference and hypothesis strings in \
+document index: {doc_idx}! \
+(Reference: {ref_str}; Hypothesis: {hyp_str})"""
 INIT_COMPLETE_MSG = "Initialisation complete."
 REF_OR_HYP_TYPE_ERROR = """
-    reference and hypothesis parameters must have type list, str,
+reference and hypothesis parameters must have type list, str, \
 or pandas.Series"""
 
 FEATURE_DISPLAY_NAMES = {
