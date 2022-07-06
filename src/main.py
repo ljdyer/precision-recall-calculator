@@ -96,14 +96,12 @@ class PrecisionRecallCalculator:
             'ref': list(self.reference[doc_idx].strip()),
             'hyp': list(self.hypothesis[doc_idx].strip())
         }
-        print(strings)
         features_present = {'ref': [], 'hyp': []}
         while strings['ref'] and strings['hyp']:
             next_char = {
                 'hyp': strings['ref'].pop(0),
                 'ref': strings['hyp'].pop(0)
             }
-            print(next_char)
             try:
                 assert next_char['ref'].lower() == next_char['hyp'].lower()
             except AssertionError:
