@@ -34,7 +34,11 @@ pip install -r requirements.txt
 from main import PrecisionRecallCalculator
 ```
 
-## Initializing a class instance
+## How to use
+
+See also [PrecisionRecallCalculator_Example.ipynb](src/PrecisionRecallCalculator_Example.ipynb) for example usage.
+
+### Initializing a class instance
 
 ```python
 # ====================
@@ -83,7 +87,7 @@ class PrecisionRecallCalculator:
         """
 ```
 
-### Example usage:
+#### Example usage:
 
 ```python
 RESULTS_DF_PATH = 'drive/MyDrive/Group Assignment/Results/end_to_end.csv'
@@ -96,7 +100,7 @@ prc_TED = PrecisionRecallCalculator(
 
 <img src="readme-img/init.PNG"></img>
 
-## Displaying precision, recall, and F-score metrics
+### Displaying precision, recall, and F-score metrics
 
 ```python
     # ====================
@@ -120,7 +124,7 @@ prc_TED = PrecisionRecallCalculator(
         display_or_print(pd.DataFrame(feature_scores).transpose())
 ```
 
-### Example usage:
+#### Example usage:
 
 ```python
 prc_TED.show_precision_recall_fscore()
@@ -128,7 +132,7 @@ prc_TED.show_precision_recall_fscore()
 
 <img src="readme-img/metrics.PNG"></img>
 
-## Displaying confusion matrices
+### Displaying confusion matrices
 
 ```python
     # ====================
@@ -158,7 +162,7 @@ prc_TED.show_precision_recall_fscore()
             print()
 ```
 
-### Example usage:
+#### Example usage:
 
 ```python
 prc_TED.show_confusion_matrices()
