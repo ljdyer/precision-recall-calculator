@@ -100,7 +100,14 @@ class PrecisionRecallCalculator:
                 'hyp': strings['ref'].pop(0),
                 'ref': strings['hyp'].pop(0)
             }
-            assert next_char['ref'].lower() == next_char['hyp'].lower()
+            try:
+                assert next_char['ref'].lower() == next_char['hyp'].lower()
+            except AssertionError:
+                error_msg = \
+                    f"Different characters found between reference and hypothesis" +\
+                    f"strings! Document index: {doc_idx}; Reference: \"{strings['ref'][:10]}\"" +\
+                    f"Hypothesis: \"{strings['hyp'][:10]}\""
+                raise ValueError(error_msg)
             for string in strings.keys():
                 features_present[string].append([])
                 if ('CAPITALISATION' in self.features
