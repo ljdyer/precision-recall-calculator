@@ -116,7 +116,7 @@ class PrecisionRecallCalculator:
             except AssertionError:
                 error_msg = DIFFERENT_CHARS_ERROR.format(
                     doc_idx = doc_idx,
-                    ref_str = ''.join(strings['ref'][:10])
+                    ref_str = ''.join(strings['ref'][:10]),
                     hyp_str = ''.join(strings['hyp'][:10])
                 )
                 raise ValueError(error_msg)
