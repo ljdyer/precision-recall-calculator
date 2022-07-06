@@ -3,21 +3,18 @@ from typing import Union
 from sklearn.metrics import confusion_matrix
 from helper import display_or_print, get_tqdm
 import numpy as np
-import textwrap
 
 Str_or_List = Union[str, list]
 Int_or_Str = Union[int, str]
 
 NON_EQUAL_LENGTH_ERROR = \
     "Hypothesis and reference lists must have equal length."
-DIFFERENT_CHARS_ERROR = textwrap.dedent(
-    """
+DIFFERENT_CHARS_ERROR = """
     Different characters found between reference and hypothesis strings in \
-    document index: {doc_idx}!
+document index: {doc_idx}!
     Reference: {ref_str}
     Hypothesis: {hyp_str}
     """
-)
 INIT_COMPLETE_MSG = "Initialisation complete."
 
 
