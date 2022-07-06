@@ -37,7 +37,6 @@ from main import PrecisionRecallCalculator
 ## Initializing a class instance
 
 python```
-# ====================
 class PrecisionRecallCalculator:
 
     # ====================
