@@ -38,7 +38,8 @@ class PrecisionRecallCalculator:
                  reference: Str_or_List,
                  hypothesis: Str_or_List,
                  capitalisation: bool,
-                 feature_chars: Str_or_List):
+                 feature_chars: Str_or_List,
+                 get_cms_on_init: bool = True):
 
         self.reference = str_or_list_to_list(reference)
         self.hypothesis = str_or_list_to_list(hypothesis)
@@ -46,8 +47,9 @@ class PrecisionRecallCalculator:
             raise ValueError(NON_EQUAL_LENGTH_ERROR)
         self.set_feature_chars(feature_chars)
         self.set_features(capitalisation)
-        self.get_confusion_matrices()
-        self.get_confusion_matrix_all()
+        if get_cms_on_init:
+            self.get_confusion_matrices()
+            self.get_confusion_matrix_all()
 
         print("Initialisation complete.")
 
@@ -94,12 +96,14 @@ class PrecisionRecallCalculator:
             'ref': list(self.reference[doc_idx]),
             'hyp': list(self.hypothesis[doc_idx])
         }
+        print(strings)
         features_present = {'ref': [], 'hyp': []}
         while strings['ref'] and strings['hyp']:
             next_char = {
                 'hyp': strings['ref'].pop(0),
                 'ref': strings['hyp'].pop(0)
             }
+            print(next_char)
             try:
                 assert next_char['ref'].lower() == next_char['hyp'].lower()
             except AssertionError:
