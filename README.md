@@ -24,19 +24,20 @@ There is no need to install any libraries in Google Colab, as all required libra
 
 If working in a virtual environment, run the following in the src directory:
 
-python```
+```python
 pip install -r requirements.txt
 ```
 
 3. Import PrecisionRecallCalculator class
 
-python```
+```python
 from main import PrecisionRecallCalculator
 ```
 
 ## Initializing a class instance
 
-python```
+```python
+# ====================
 class PrecisionRecallCalculator:
 
     # ====================
