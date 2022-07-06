@@ -104,9 +104,10 @@ class PrecisionRecallCalculator:
                 assert next_char['ref'].lower() == next_char['hyp'].lower()
             except AssertionError:
                 error_msg = \
-                    f"Different characters found between reference and hypothesis" +\
-                    f"strings! Document index: {doc_idx}; Reference: \"{strings['ref'][:10]}\"" +\
-                    f"Hypothesis: \"{strings['hyp'][:10]}\""
+                    "Different characters found between reference and " +\
+                    f"hypothesis strings!\nDocument index: {doc_idx}\n" +\
+                    f"Reference: \"{''.join(strings['ref'][:10])}\\n" +\
+                    f"Hypothesis: \"{''.join(strings['hyp'][:10])}\\n\""
                 raise ValueError(error_msg)
             for string in strings.keys():
                 features_present[string].append([])
