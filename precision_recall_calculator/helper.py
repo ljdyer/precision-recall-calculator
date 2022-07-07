@@ -6,8 +6,11 @@ Helper functions for PrecisionRecallCalculator class
 
 from tqdm import tqdm as non_notebook_tqdm
 from tqdm.notebook import tqdm as notebook_tqdm
-from typing import Any
+from typing import Any, Union
 
+Int_or_Str = Union[int, str]
+Str_or_List = Union[str, list]
+Str_or_List_or_Series = Union[str, list, pd.Series]
 
 # ====================
 def get_tqdm() -> type:

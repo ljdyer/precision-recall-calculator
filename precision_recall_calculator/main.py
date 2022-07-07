@@ -4,17 +4,12 @@ main.py
 Main module for PrecisionRecallCalculator class
 """
 
-from typing import Union
-
 import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from helper import display_or_print, get_tqdm
-
-Str_or_List = Union[str, list]
-Str_or_List_or_Series = Union[str, list, pd.Series]
-Int_or_Str = Union[int, str]
+from helper import (Int_or_Str, Str_or_List, Str_or_List_or_Series,
+                    display_or_print, get_tqdm)
 
 NON_EQUAL_LENGTH_ERROR = \
     "Hypothesis and reference lists must have equal length."
