@@ -15,7 +15,7 @@ import sys
 # Clone precision-recall-calculator repo
 !git clone https://github.com/ljdyer/precision-recall-calculator.git
 # Add precision-recall-calculator to PYTHONPATH
-sys.path.append('precision-recall-calculator/src')
+sys.path.append('precision-recall-calculator')
 ```
 
 ### 2. Install requirements (if required)
@@ -31,7 +31,7 @@ pip install -r requirements.txt
 ### 3. Import PrecisionRecallCalculator class
 
 ```python
-from main import PrecisionRecallCalculator
+from precision_recall_calculator.main import PrecisionRecallCalculator
 ```
 
 ## How to use
