@@ -65,34 +65,31 @@ class PrecisionRecallCalculator:
 
         Required arguments:
         -------------------
-        reference: Str_or_List_or_Series    Either a single string, or a list
-                                            or pandas.Series object of strings
-                                            ('documents') to use as the
-                                            reference corpus.
-        hypothesis: Str_or_List_or_Series   Either a single string, or a list
-                                            or pandas.Series object of strings
-                                            ('documents') to use as the
-                                            hypothesis corpus.
-                                            (Number of documents must be the
-                                            same as reference.)
-        capitalisation: bool                Whether or not to treat
-                                            capitalisation as a feature to be
-                                            assessed.
-        feature_chars: Str_or_List          A string or list of characters
-                                            containing other characters to
-                                            treat as features (e.g. '., ' for
-                                            periods, commas, and spaces.)
+        reference:                  Either a single string, or a list or
+            Str_or_List_or_Series   pandas.Series object of strings
+                                    ('documents') to use as the reference
+                                    corpus.
+        hypothesis:                 Either a single string, or a list or
+            Str_or_List_or_Series   pandas.Series object of strings
+                                    ('documents') to use as the hypothesis
+                                    corpus.
+                                    (Number of documents must be the same
+                                    as reference.)
+        capitalisation: bool        Whether or not to treat capitalisation
+                                    as a feature to be assessed.
+        feature_chars:              A string or list of characters containing
+            Str_or_List             other characters to treat as features
+                                    (e.g. '., ' for periods, commas, and
+                                    spaces.)
 
         Optional keyword arguments:
         ---------------------------
-        get_cms_on_init: bool               Whether or not to get confusion
-                                            matrics for all reference/
-                                            hypothesis documents on
-                                            intiialization.
-                                            Set to false and access manually if
-                                            only looking at metrics for a
-                                            subset of documents in a large
-                                            corpus.
+        get_cms_on_init: bool       Whether or not to get confusion matrices
+                                    for all reference/hypothesis documents
+                                    on intiialization. Set to false and access
+                                    manually to save time if only looking at
+                                    metrics for a subset of documents in a
+                                    large corpus.
         """
 
         self.reference = str_or_list_or_series_to_list(reference)
@@ -204,12 +201,11 @@ class PrecisionRecallCalculator:
 
         Optional keyword arguments:
         ---------------------------
-        doc_idx: Int_or_Str                 Either an integer indicating the
-                                            index of the document to show
-                                            confusion matrices for, or 'all'
-                                            to show confusion matrices for
-                                            all documents in the corpus (the
-                                            default behaviour)."""
+        doc_idx: Int_or_Str         Either an integer indicating the index of
+                                    the document to show confusion matrices
+                                    for, or 'all' to show confusion matrices
+                                    for all documents in the corpus (the
+                                    default behaviour)."""
 
         for feature in self.features + ['all']:
             print(self.feature_display_name(feature))
@@ -230,11 +226,10 @@ class PrecisionRecallCalculator:
 
         Optional keyword arguments:
         ---------------------------
-        doc_idx: Int_or_Str                 Either an integer indicating the
-                                            index of the document to show
-                                            metrics for, or 'all' to show
-                                            metrics for all documents in the
-                                            corpus (the default behaviour)."""
+        doc_idx: Int_or_Str         Either an integer indicating the index of
+                                    the document to show metrics for, or 'all'
+                                    to show metrics for all documents in the
+                                    corpus (the default behaviour)."""
 
         feature_scores = {
             self.feature_display_name(feature):
