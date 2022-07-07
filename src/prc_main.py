@@ -193,7 +193,8 @@ class PrecisionRecallCalculator:
 
     # ====================
     def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
-        """Show confusion matrices for each feature, for either a
+        """
+        Show confusion matrices for each feature, for either a
         single document or the entire corpus.
 
         Optional keyword arguments:
@@ -202,7 +203,8 @@ class PrecisionRecallCalculator:
                                     the document to show confusion matrices
                                     for, or 'all' to show confusion matrices
                                     for all documents in the corpus (the
-                                    default behaviour)."""
+                                    default behaviour).
+        """
 
         for feature in self.features + ['all']:
             print(self.feature_display_name(feature))
@@ -218,7 +220,8 @@ class PrecisionRecallCalculator:
 
     # ====================
     def show_precision_recall_fscore(self, doc_idx: Int_or_Str = 'all'):
-        """Show precision, recall and F-score for each feature, for
+        """
+        Show precision, recall and F-score for each feature, for
         either a single document or the entire corpus.
 
         Optional keyword arguments:
@@ -226,7 +229,8 @@ class PrecisionRecallCalculator:
         doc_idx: Int_or_Str         Either an integer indicating the index of
                                     the document to show metrics for, or 'all'
                                     to show metrics for all documents in the
-                                    corpus (the default behaviour)."""
+                                    corpus (the default behaviour).
+        """
 
         feature_scores = {
             self.feature_display_name(feature):
