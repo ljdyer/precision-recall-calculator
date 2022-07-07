@@ -4,9 +4,9 @@ test.py
 Basic tests for PrecisionRecallCalculator class
 """
 
-from main import PrecisionRecallCalculator
+from precision_recall_calculator_main import PrecisionRecallCalculator
 
-
+# ====================
 if __name__ == "__main__":
 
     reference = [
