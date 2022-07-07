@@ -4,11 +4,13 @@ main.py
 Main module for PrecisionRecallCalculator class
 """
 
-import pandas as pd
 from typing import Union
-from sklearn.metrics import confusion_matrix
-from helper import display_or_print, get_tqdm
+
 import numpy as np
+import pandas as pd
+from sklearn.metrics import confusion_matrix
+
+from helper import display_or_print, get_tqdm
 
 Str_or_List = Union[str, list]
 Str_or_List_or_Series = Union[str, list, pd.Series]
