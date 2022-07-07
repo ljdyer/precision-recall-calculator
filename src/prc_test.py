@@ -4,7 +4,7 @@ test.py
 Basic tests for PrecisionRecallCalculator class
 """
 
-from precision_recall_calculator_main import PrecisionRecallCalculator
+from prc_main import PrecisionRecallCalculator
 
 # ====================
 if __name__ == "__main__":
@@ -53,7 +53,6 @@ if __name__ == "__main__":
     # Precision is tp/(tp+fp) = 2/(2+1) = 2/3
     # Recall is tp/(tp+fn) = 2/(2+1) = 2/3
     # F-score is (2*p*r)/(p+r) = (4/9)/(2/3) = 2/3
-    print(sent_2_spaces)
     assert round(sent_2_spaces['Precision'], 2) == 0.67
     assert round(sent_2_spaces['Recall'], 2) == 0.67
     assert round(sent_2_spaces['F-score'], 2) == 0.67
