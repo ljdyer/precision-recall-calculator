@@ -223,6 +223,7 @@ class PrecisionRecallCalculator:
         """
         Show precision, recall and F-score for each feature, for
         either a single document or the entire corpus.
+        ADDED ACCURACY
 
         Optional keyword arguments:
         ---------------------------
@@ -243,25 +244,31 @@ class PrecisionRecallCalculator:
     def precision_recall_fscore_from_cm(self, cm: np.ndarray):
         """Calculate precision, recall, and F-score from a confusion matrix."""
 
-        true_pos = float(cm[0][0])
-        false_pos = float(cm[1][0])
-        false_neg = float(cm[0][1])
+        tp = float(cm[0][0])
+        tn = float(cm[1][1])
+        fp = float(cm[1][0])
+        fn = float(cm[0][1])
         try:
-            precision = true_pos / (true_pos + false_pos)
+            precision = tp / (tp + fp)
         except ZeroDivisionError:
             precision = 'N/A'
         try:
-            recall = true_pos / (true_pos + false_neg)
+            recall = tp / (tp + fn)
         except ZeroDivisionError:
             recall = 'N/A'
         try:
             fscore = (2*precision*recall) / (precision+recall)
         except (TypeError, ZeroDivisionError):
             fscore = 'N/A'
+        try:
+            accuracy = sum(tp, tn) / sum(tp, tn, fp, fn)
+        except ZeroDivisionError:
+            accuracy = 'N/A'
         return {
             'Precision': precision,
             'Recall': recall,
-            'F-score': fscore
+            'F-score': fscore,
+            'Accuracy': accuracy
         }
 
     # ====================
