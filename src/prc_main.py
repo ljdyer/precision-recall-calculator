@@ -261,7 +261,7 @@ class PrecisionRecallCalculator:
         except (TypeError, ZeroDivisionError):
             fscore = 'N/A'
         try:
-            accuracy = sum(tp, tn) / sum(tp, tn, fp, fn)
+            accuracy = (tp + tn) / (tp + tn + fp + fn)
         except ZeroDivisionError:
             accuracy = 'N/A'
         return {
