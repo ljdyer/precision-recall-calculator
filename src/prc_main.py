@@ -13,10 +13,11 @@ from prc_helper import (Int_or_Str, Str_or_List, Str_or_List_or_Series,
 
 NON_EQUAL_LENGTH_ERROR = \
     "Hypothesis and reference lists must have equal length."
-DIFFERENT_CHARS_ERROR = """
+WARNING_DIFFERENT_CHARS = """
 Different characters found between reference and hypothesis strings in \
 document index: {doc_idx}! \
-(Reference: "{ref_str}"; Hypothesis: "{hyp_str}")"""
+(Reference: "{ref_str}"; Hypothesis: "{hyp_str}"). \
+Skipping this document (returning None)."""
 INIT_COMPLETE_MSG = "Initialisation complete."
 REF_OR_HYP_TYPE_ERROR = """
 reference and hypothesis parameters must have type list, str, \
@@ -153,12 +154,13 @@ class PrecisionRecallCalculator:
             try:
                 assert next_char['ref'].lower() == next_char['hyp'].lower()
             except AssertionError:
-                error_msg = DIFFERENT_CHARS_ERROR.format(
+                error_msg = WARNING_DIFFERENT_CHARS.format(
                     doc_idx=doc_idx,
                     ref_str=(next_char['ref'] + ''.join(strings['ref'][:10])),
                     hyp_str=(next_char['hyp'] + ''.join(strings['hyp'][:10]))
                 )
-                raise ValueError(error_msg)
+                print(error_msg)
+                return None
             for string in strings.keys():
                 features_present[string].append([])
                 if ('CAPITALISATION' in self.features
