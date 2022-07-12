@@ -13,9 +13,8 @@ from prc_helper import (Int_or_Str, Str_or_List, Str_or_List_or_Series,
 
 NON_EQUAL_LENGTH_ERROR = \
     "Hypothesis and reference lists must have equal length."
-WARNING_DIFFERENT_CHARS = """
-Different characters found between reference and hypothesis strings in \
-document index: {doc_idx}! \
+WARNING_DIFFERENT_CHARS = """Different characters found between reference and \
+hypothesis strings in document index: {doc_idx}! \
 (Reference: "{ref_str}"; Hypothesis: "{hyp_str}"). \
 Skipping this document (returning None)."""
 INIT_COMPLETE_MSG = "Initialisation complete."
@@ -190,7 +189,8 @@ class PrecisionRecallCalculator:
         for f in self.features + ['all']:
             all_docs[f] = \
                 sum([self.confusion_matrices[doc_idx][f]
-                    for doc_idx in range(len(self.reference))])
+                    for doc_idx in range(len(self.reference))
+                    if self.confusion_matrics[doc_idx] is not None])
         self.confusion_matrices['all'] = all_docs
 
     # ====================
