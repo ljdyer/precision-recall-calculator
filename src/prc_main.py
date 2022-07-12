@@ -190,7 +190,7 @@ class PrecisionRecallCalculator:
             all_docs[f] = \
                 sum([self.confusion_matrices[doc_idx][f]
                     for doc_idx in range(len(self.reference))
-                    if self.confusion_matrics[doc_idx] is not None])
+                    if self.confusion_matrices[doc_idx] is not None])
         self.confusion_matrices['all'] = all_docs
 
     # ====================
