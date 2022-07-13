@@ -242,7 +242,7 @@ class PrecisionRecallCalculator:
 
         feature_scores = self.get_feature_scores(doc_idx)
         scores_df = pd.DataFrame(feature_scores).transpose()
-        output_lines = ''
+        output_lines = []
         output_lines.append(r"\hline")
         output_lines.append(r"& \head{Precision} & \head{Recall} & \head{F-score}\\")
         output_lines.append(r"\hline")
