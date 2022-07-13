@@ -225,7 +225,6 @@ class PrecisionRecallCalculator:
         """
         Show precision, recall and F-score for each feature, for
         either a single document or the entire corpus.
-        ADDED ACCURACY
 
         Optional keyword arguments:
         ---------------------------
@@ -235,12 +234,33 @@ class PrecisionRecallCalculator:
                                     corpus (the default behaviour).
         """
 
+        feature_scores = self.get_feature_scores(doc_idx)
+        display_or_print(pd.DataFrame(feature_scores).transpose())
+
+    # ====================
+    def get_precision_recall_latex(self, doc_idx: Int_or_Str = 'all'):
+
+        feature_scores = self.get_feature_scores(doc_idx)
+        scores_df = pd.DataFrame(feature_scores).transpose()
+        output_lines = ''
+        output_lines.append(r"\hline")
+        output_lines.append(r"& \head{Precision} & \head{Recall} & \head{F-score}\\")
+        output_lines.append(r"\hline")
+        for index, data in scores_df.iterrows():
+            new_line = f"{index} & {data['Precision']:.3f} & {data['Recall']:.3f} & {data['F-score']:.3f}"
+            output_lines.append(new_line)
+        return '\n'.join(output_lines)
+
+    # ====================
+    def get_feature_scores(self, doc_idx: Int_or_Str = 'all'):
+
         feature_scores = {
             self.feature_display_name(feature):
             self.precision_recall_fscore_from_cm(
                 self.confusion_matrices[doc_idx][feature])
-            for feature in self.features + ['all']}
-        display_or_print(pd.DataFrame(feature_scores).transpose())
+            for feature in self.features + ['all']
+        }
+        return feature_scores
 
     # ====================
     def precision_recall_fscore_from_cm(self, cm: np.ndarray):
