@@ -347,7 +347,7 @@ class PrecisionRecallCalculator:
                 elif (feature in features_present['ref']
                         and feature in features_present['hyp']):
                     output_chars.append(feature)
-        return output_chars
+        return [oc.replace(' ', r'{\ }') for oc in output_chars]
 
     # ====================
     @staticmethod
