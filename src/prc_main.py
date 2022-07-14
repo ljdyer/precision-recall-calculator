@@ -327,10 +327,10 @@ class PrecisionRecallCalculator:
             if 'CAPITALISATION' in self.features:
                 if ('CAPITALISATION' in features_present['ref']
                    and 'CAPITALISATION' not in features_present['hyp']):
-                    output_chars.append(f'\\fn{{{next_char['hyp']}}}')
+                    output_chars.append(f"\\fn{{{next_char['hyp']}}}")
                 elif ('CAPITALISATION' not in features_present['ref']
                    and 'CAPITALISATION' in features_present['hyp']):
-                    output_chars.append(f'\\fp\{{{next_char['hyp']}}}')
+                    output_chars.append(f"\\fp\{{{next_char['hyp']}}}")
                 else:
                     output_chars.append(next_char['hyp'])
             for feature in self.feature_chars:
