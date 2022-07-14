@@ -243,10 +243,13 @@ class PrecisionRecallCalculator:
         scores_df = pd.DataFrame(feature_scores).transpose()
         output_lines = []
         output_lines.append(r"\hline")
-        output_lines.append(r"& \head{Precision} & \head{Recall} & \head{F-score}\\")
+        output_lines.append(r"& \head{Precision} & \head{Recall} & " +
+                            r"\head{F-score}\\")
         output_lines.append(r"\hline")
         for index, data in scores_df.iterrows():
-            new_line = f"{index} & {data['Precision']:.3f} & {data['Recall']:.3f} & {data['F-score']:.3f}\\"
+            new_line = (f"{index} & {data['Precision']:.3f} & " +
+                        f"{data['Recall']:.3f} & " +
+                        f"{data['F-score']:.3f}\\")
             output_lines.append(new_line)
         return '\n'.join(output_lines)
 
@@ -344,7 +347,7 @@ class PrecisionRecallCalculator:
                 elif (feature in features_present['ref']
                         and feature in features_present['hyp']):
                     output_chars.append(feature)
-        return ''.join(output_chars)
+        return output_chars
 
     # ====================
     @staticmethod
