@@ -323,27 +323,27 @@ class PrecisionRecallCalculator:
                 while (len(strings[string]) > 0
                        and strings[string][0] in self.features):
                     features_present[string].append(strings[string].pop(0))
-                if 'CAPITALISATION' in self.features:
-                    if ('CAPITALISATION' in features_present['ref']
-                       and 'CAPITALISATION' not in features_present['hyp']):
-                        output_chars.append(f"\\fn{{{next_char['hyp']}}}")
-                    elif ('CAPITALISATION' not in features_present['ref']
-                          and 'CAPITALISATION' in features_present['hyp']):
-                        output_chars.append(f"\\fp\{{{next_char['hyp']}}}")
-                    else:
-                        output_chars.append(next_char['hyp'])
+            if 'CAPITALISATION' in self.features:
+                if ('CAPITALISATION' in features_present['ref']
+                   and 'CAPITALISATION' not in features_present['hyp']):
+                    output_chars.append(f"\\fn{{{next_char['hyp']}}}")
+                elif ('CAPITALISATION' not in features_present['ref']
+                        and 'CAPITALISATION' in features_present['hyp']):
+                    output_chars.append(f"\\fp\{{{next_char['hyp']}}}")
                 else:
                     output_chars.append(next_char['hyp'])
-                for feature in self.feature_chars:
-                    if (feature in features_present['ref']
-                       and feature not in features_present['hyp']):
-                        output_chars.append(f'\\fn{{{feature}}}')
-                    elif (feature not in features_present['ref']
-                          and feature in features_present['hyp']):
-                        output_chars.append(f'\\fp{{{feature}}}')
-                    elif (feature in features_present['ref']
-                          and feature in features_present['hyp']):
-                        output_chars.append(feature)
+            else:
+                output_chars.append(next_char['hyp'])
+            for feature in self.feature_chars:
+                if (feature in features_present['ref']
+                   and feature not in features_present['hyp']):
+                    output_chars.append(f'\\fn{{{feature}}}')
+                elif (feature not in features_present['ref']
+                        and feature in features_present['hyp']):
+                    output_chars.append(f'\\fp{{{feature}}}')
+                elif (feature in features_present['ref']
+                        and feature in features_present['hyp']):
+                    output_chars.append(feature)
         return ''.join(output_chars)
 
     # ====================
