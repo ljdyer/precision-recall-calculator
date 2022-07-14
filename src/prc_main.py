@@ -332,6 +332,8 @@ class PrecisionRecallCalculator:
                         output_chars.append(f"\\fp\{{{next_char['hyp']}}}")
                     else:
                         output_chars.append(next_char['hyp'])
+                else:
+                    output_chars.append(next_char['hyp'])
                 for feature in self.feature_chars:
                     if (feature in features_present['ref']
                        and feature not in features_present['hyp']):
