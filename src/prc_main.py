@@ -98,7 +98,6 @@ class PrecisionRecallCalculator:
         if get_cms_on_init:
             self.get_confusion_matrices()
             self.get_confusion_matrix_all()
-
         print(INIT_COMPLETE_MSG)
 
     # ====================
@@ -247,7 +246,7 @@ class PrecisionRecallCalculator:
         output_lines.append(r"& \head{Precision} & \head{Recall} & \head{F-score}\\")
         output_lines.append(r"\hline")
         for index, data in scores_df.iterrows():
-            new_line = f"{index} & {data['Precision']:.3f} & {data['Recall']:.3f} & {data['F-score']:.3f}"
+            new_line = f"{index} & {data['Precision']:.3f} & {data['Recall']:.3f} & {data['F-score']:.3f}\\"
             output_lines.append(new_line)
         return '\n'.join(output_lines)
 
@@ -294,6 +293,59 @@ class PrecisionRecallCalculator:
         }
 
     # ====================
+    def show_fps_and_fns_in_text(self, doc_idx: int):
+
+        output_chars = []
+        strings = {
+            'ref': list(self.reference[doc_idx].strip()),
+            'hyp': list(self.hypothesis[doc_idx].strip())
+        }
+        while strings['ref'] and strings['hyp']:
+            features_present = {'ref': [], 'hyp': []}
+            next_char = {
+                'ref': strings['ref'].pop(0),
+                'hyp': strings['hyp'].pop(0)
+            }
+            try:
+                assert next_char['ref'].lower() == next_char['hyp'].lower()
+            except AssertionError:
+                error_msg = WARNING_DIFFERENT_CHARS.format(
+                    doc_idx=doc_idx,
+                    ref_str=(next_char['ref'] + ''.join(strings['ref'][:10])),
+                    hyp_str=(next_char['hyp'] + ''.join(strings['hyp'][:10]))
+                )
+                print(error_msg)
+                return None
+            for string in strings.keys():
+                features_present[string].append([])
+                if ('CAPITALISATION' in self.features
+                   and next_char[string].isupper()):
+                    features_present[string][-1].append('CAPITALISATION')
+                while (len(strings[string]) > 0
+                       and strings[string][0] in self.features):
+                    features_present[string][-1].append(strings[string].pop(0))
+            if 'CAPITALISATION' in self.features:
+                if ('CAPITALISATION' in features_present['ref']
+                   and 'CAPITALISATION' not in features_present['hyp']):
+                    output_chars.append(f'\\fn{{next_char['hyp']}}')
+                elif ('CAPITALISATION' not in features_present['ref']
+                   and 'CAPITALISATION' in features_present['hyp']):
+                    output_chars.append(f'\\fp\{{next_char['hyp']}}')
+                else:
+                    output_chars.append(next_char['hyp'])
+            for feature in self.feature_chars:
+                if (feature in features_present['ref']
+                   and feature not in features_present['hyp']):
+                    output_chars.append(f'\\fn{{feature}}')
+                elif (feature not in features_present['ref']
+                   and feature in features_present['hyp']):
+                    output_chars.append(f'\\fp{{feature}}')
+                elif (feature in features_present['ref']
+                   and feature in features_present['hyp']):
+                    output_chars.append(feature)
+        return ''.join(output_chars)
+    
+    # ====================
     @staticmethod
     def feature_display_name(feature):
         """Return the display name for a feature."""
@@ -302,3 +354,4 @@ class PrecisionRecallCalculator:
             return FEATURE_DISPLAY_NAMES[feature]
         else:
             return f"'{feature}'"
+
