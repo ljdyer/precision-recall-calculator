@@ -360,16 +360,9 @@ class PrecisionRecallCalculator:
                 for (a, b) in zip(range(0, chars_per_row*num_rows, chars_per_row),
                                   range(chars_per_row, chars_per_row*(num_rows+1), chars_per_row))]
         for row in rows:
-            print(row)
-        for row in rows:
             row[0] = self.escape_line_end_space(row[0])
             row[-1] = self.escape_line_end_space(row[-1])
-        for row in rows:
-            print(row)
         rows = [[self.escape_other_spaces(e) for e in row] for row in rows]
-        for row in rows:
-            print(row)
-        return [f"\\texttt{''.join(r)}\\\\" for r in rows]
         final_latex = '\n'.join(
             [f"\\texttt{''.join(r)}\\\\" for r in rows]
         )
