@@ -364,7 +364,7 @@ class PrecisionRecallCalculator:
             row[-1] = self.escape_line_end_space(row[-1])
         rows = [[self.escape_other_spaces(e) for e in row] for row in rows]
         final_latex = '\n'.join(
-            [f"\\texttt{''.join(r)}\\\\" for r in rows]
+            [f"\\texttt{{{''.join(r)}}}\\\\" for r in rows]
         )
         return final_latex
 
