@@ -339,7 +339,7 @@ class PrecisionRecallCalculator:
                     output_chars.append(f'\\fn{{\\mbox{{{feature}}}}}')
                 elif (feature not in features_present['ref']
                         and feature in features_present['hyp']):
-                    output_chars.append(f'\\fn{{\\mbox{{{feature}}}}}')
+                    output_chars.append(f'\\fp{{\\mbox{{{feature}}}}}')
                 elif (feature in features_present['ref']
                         and feature in features_present['hyp']):
                     output_chars.append(feature)
