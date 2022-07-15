@@ -362,8 +362,8 @@ class PrecisionRecallCalculator:
         for row in rows:
             print(row)
         for row in rows:
-            row[0] = self.escape_line_end_space(rows[0])
-            row[-1] = self.escape_line_end_space(rows[-1])
+            row[0] = self.escape_line_end_space(row[0])
+            row[-1] = self.escape_line_end_space(row[-1])
         for row in rows:
             print(row)
         rows = [[self.escape_other_spaces(e) for e in row] for row in rows]
