@@ -296,13 +296,9 @@ class PrecisionRecallCalculator:
         }
 
     # ====================
-    def show_fps_and_fns_in_text(self, doc_idx: int):
+    def label_fps_and_fns(self, strings: str):
 
         output_chars = []
-        strings = {
-            'ref': list(self.reference[doc_idx].strip()),
-            'hyp': list(self.hypothesis[doc_idx].strip())
-        }
         while strings['ref'] and strings['hyp']:
             features_present = {'ref': [], 'hyp': []}
             next_char = {
@@ -313,7 +309,7 @@ class PrecisionRecallCalculator:
                 assert next_char['ref'].lower() == next_char['hyp'].lower()
             except AssertionError:
                 error_msg = WARNING_DIFFERENT_CHARS.format(
-                    doc_idx=doc_idx,
+                    doc_idx="UNKNOWN",
                     ref_str=(next_char['ref'] + ''.join(strings['ref'][:10])),
                     hyp_str=(next_char['hyp'] + ''.join(strings['hyp'][:10]))
                 )
@@ -332,7 +328,7 @@ class PrecisionRecallCalculator:
                     output_chars.append(f"\\fn{{{next_char['hyp']}}}")
                 elif ('CAPITALISATION' not in features_present['ref']
                         and 'CAPITALISATION' in features_present['hyp']):
-                    output_chars.append(f"\\fp\{{{next_char['hyp']}}}")
+                    output_chars.append(f"\\fp{{{next_char['hyp']}}}")
                 else:
                     output_chars.append(next_char['hyp'])
             else:
@@ -340,16 +336,55 @@ class PrecisionRecallCalculator:
             for feature in self.feature_chars:
                 if (feature in features_present['ref']
                    and feature not in features_present['hyp']):
-                    output_chars.append(f'\\fn{{{feature}}}')
+                    output_chars.append(f'\\fn{{\\mbox{{{feature}}}}}')
                 elif (feature not in features_present['ref']
                         and feature in features_present['hyp']):
-                    output_chars.append(f'\\fp{{{feature}}}')
+                    output_chars.append(f'\\fn{{\\mbox{{{feature}}}}}')
                 elif (feature in features_present['ref']
                         and feature in features_present['hyp']):
                     output_chars.append(feature)
-        output_chars = [oc.replace(' ', r'{\ }') for oc in output_chars]
-        output_chars = [oc.replace(r'{{\ }}', '{\ }') for oc in output_chars]
         return output_chars
+
+    # ====================
+    def latex_text_display(self, doc_idx: int, start_char: int = 0,
+                           chars_per_row: int = 30, num_rows: int = 3):
+
+        if start_char != 0:
+            raise RuntimeError('Start char != 0 not implemented yet!')
+        strings = {
+            'ref': list(self.reference[doc_idx].strip()),
+            'hyp': list(self.hypothesis[doc_idx].strip())
+        }
+        labelled = self.label_fps_and_fns(strings)
+        rows = [[labelled[i] for i in range(a, b)]
+                for (a, b) in zip(range(0, chars_per_row*num_rows, chars_per_row),
+                                  range(chars_per_row, chars_per_row*(num_rows+1), chars_per_row))]
+        for row in rows:
+            row[0] = self.escape_line_end_space(rows[0])
+            row[-1] = self.escape_line_end_space(rows[-1])
+        rows = [[self.escape_other_spaces(e) for e in row] for row in rows]
+        final_latex = '\n'.join(
+            [f"\\texttt{''.join(r)}\\\\" for r in rows]
+        )
+        return final_latex
+
+    # ====================
+    @staticmethod
+    def escape_line_end_space(entry: str):
+
+        if entry == ' ':
+            return r"\Verb+{\ }+"
+        else:
+            return entry
+
+    # ====================
+    @staticmethod
+    def escape_other_spaces(entry: str):
+
+        if entry == ' ':
+            return r"{\ }"
+        else:
+            return entry
 
     # ====================
     @staticmethod
@@ -360,4 +395,3 @@ class PrecisionRecallCalculator:
             return FEATURE_DISPLAY_NAMES[feature]
         else:
             return f"'{feature}'"
-
