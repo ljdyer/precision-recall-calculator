@@ -107,6 +107,7 @@ def show_prfs_latex(prfs: dict):
 # ====================
 def prfs_all_features(cms, for_latex: bool = False):
 
+    print(cms)
     prfs = {
         feature_display_name(feature, for_latex):
             prf_single_feature(cms[feature])
