@@ -4,31 +4,17 @@ main.py
 Main module for PrecisionRecallCalculator class
 """
 
-import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from prc_helper import (FEATURE_DISPLAY_NAMES, INIT_COMPLETE_MSG,
-                        NON_EQUAL_LENGTH_ERROR, REF_OR_HYP_TYPE_ERROR,
+from prc_helper import (FEATURE_DISPLAY_NAMES, FEATURE_DISPLAY_NAMES_LATEX,
+                        INIT_COMPLETE_MSG, NON_EQUAL_LENGTH_ERROR,
                         WARNING_DIFFERENT_CHARS, Int_or_Str, Str_or_List,
                         Str_or_List_or_Series, display_or_print, get_tqdm,
-                        label_fps_and_fns)
+                        label_fps_and_fns, precision_recall_fscore_from_cm,
+                        str_or_list_or_series_to_list)
 
 tqdm_ = get_tqdm()
-
-
-# ====================
-def str_or_list_or_series_to_list(
-     input_: Str_or_List_or_Series) -> list:
-
-    if isinstance(input_, str):
-        return [input_]
-    elif isinstance(input_, pd.Series):
-        return input_.to_list()
-    elif isinstance(input_, list):
-        return input_
-    else:
-        raise TypeError(REF_OR_HYP_TYPE_ERROR)
 
 
 # ====================
@@ -238,46 +224,17 @@ class PrecisionRecallCalculator:
         return '\n'.join(output_lines)
 
     # ====================
-    def get_feature_scores(self, doc_idx: Int_or_Str = 'all'):
+    def get_feature_scores(self,
+                           doc_idx: Int_or_Str = 'all',
+                           latex: bool = False):
 
         feature_scores = {
-            self.feature_display_name(feature):
-            self.precision_recall_fscore_from_cm(
+            self.feature_display_name(feature, latex):
+            precision_recall_fscore_from_cm(
                 self.confusion_matrices[doc_idx][feature])
             for feature in self.features + ['all']
         }
         return feature_scores
-
-    # ====================
-    def precision_recall_fscore_from_cm(self, cm: np.ndarray):
-        """Calculate precision, recall, and F-score from a confusion matrix."""
-
-        tp = float(cm[0][0])
-        tn = float(cm[1][1])
-        fp = float(cm[1][0])
-        fn = float(cm[0][1])
-        try:
-            precision = tp / (tp + fp)
-        except ZeroDivisionError:
-            precision = 'N/A'
-        try:
-            recall = tp / (tp + fn)
-        except ZeroDivisionError:
-            recall = 'N/A'
-        try:
-            fscore = (2*precision*recall) / (precision+recall)
-        except (TypeError, ZeroDivisionError):
-            fscore = 'N/A'
-        try:
-            accuracy = (tp + tn) / (tp + tn + fp + fn)
-        except ZeroDivisionError:
-            accuracy = 'N/A'
-        return {
-            'Precision': precision,
-            'Recall': recall,
-            'F-score': fscore,
-            'Accuracy': accuracy
-        }
 
     # ====================
     def latex_text_display(self, doc_idx: int, start_char: int = 0,
@@ -327,10 +284,12 @@ class PrecisionRecallCalculator:
 
     # ====================
     @staticmethod
-    def feature_display_name(feature):
+    def feature_display_name(feature, latex: bool = False):
         """Return the display name for a feature."""
 
-        if feature in FEATURE_DISPLAY_NAMES:
+        if latex is False and feature in FEATURE_DISPLAY_NAMES:
             return FEATURE_DISPLAY_NAMES[feature]
+        elif latex is True and feature in FEATURE_DISPLAY_NAMES_LATEX:
+            return FEATURE_DISPLAY_NAMES_LATEX[feature]
         else:
             return f"'{feature}'"

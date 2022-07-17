@@ -9,6 +9,7 @@ from typing import Any, Union
 import pandas as pd
 from tqdm import tqdm as non_notebook_tqdm
 from tqdm.notebook import tqdm as notebook_tqdm
+import numpy as np
 
 Int_or_Str = Union[int, str]
 Str_or_List = Union[str, list]
@@ -32,6 +33,27 @@ FEATURE_DISPLAY_NAMES = {
     '.': "Periods ('.')",
     'all': 'All features'
 }
+FEATURE_DISPLAY_NAMES_LATEX = {
+    'CAPITALISATION': "CAPS",
+    ' ': r"Spaces ('{\ }')",
+    ',': "Commas (',')",
+    '.': "Periods ('.')",
+    'all': 'All'
+}
+
+
+# ====================
+def str_or_list_or_series_to_list(
+     input_: Str_or_List_or_Series) -> list:
+
+    if isinstance(input_, str):
+        return [input_]
+    elif isinstance(input_, pd.Series):
+        return input_.to_list()
+    elif isinstance(input_, list):
+        return input_
+    else:
+        raise TypeError(REF_OR_HYP_TYPE_ERROR)
 
 
 # ====================
@@ -117,3 +139,35 @@ def label_fps_and_fns(strings: str, features: list, feature_chars: list):
                     and feature in features_present['hyp']):
                 output_chars.append(feature)
     return output_chars
+
+
+# ====================
+def precision_recall_fscore_from_cm(cm: np.ndarray):
+    """Calculate precision, recall, and F-score from a confusion matrix."""
+
+    tp = float(cm[0][0])
+    tn = float(cm[1][1])
+    fp = float(cm[1][0])
+    fn = float(cm[0][1])
+    try:
+        precision = tp / (tp + fp)
+    except ZeroDivisionError:
+        precision = 'N/A'
+    try:
+        recall = tp / (tp + fn)
+    except ZeroDivisionError:
+        recall = 'N/A'
+    try:
+        fscore = (2*precision*recall) / (precision+recall)
+    except (TypeError, ZeroDivisionError):
+        fscore = 'N/A'
+    try:
+        accuracy = (tp + tn) / (tp + tn + fp + fn)
+    except ZeroDivisionError:
+        accuracy = 'N/A'
+    return {
+        'Precision': precision,
+        'Recall': recall,
+        'F-score': fscore,
+        'Accuracy': accuracy
+    }
