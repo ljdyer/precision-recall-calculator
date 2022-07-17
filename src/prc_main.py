@@ -209,17 +209,16 @@ class PrecisionRecallCalculator:
     # ====================
     def get_precision_recall_latex(self, doc_idx: Int_or_Str = 'all'):
 
-        feature_scores = self.get_feature_scores(doc_idx)
-        scores_df = pd.DataFrame(feature_scores).transpose()
+        feature_scores = self.get_feature_scores(doc_idx, latex=True)
         output_lines = []
         output_lines.append(r"\hline")
         output_lines.append(r"& \head{Precision} & \head{Recall} & " +
                             r"\head{F-score}\\")
         output_lines.append(r"\hline")
-        for index, data in scores_df.iterrows():
-            new_line = (f"{index} & {data['Precision']:.3f} & " +
-                        f"{data['Recall']:.3f} & " +
-                        f"{data['F-score']:.3f}\\")
+        for feature, scores in feature_scores.items():
+            new_line = (f"{feature} & {scores['Precision']:.3f} & " +
+                        f"{scores['Recall']:.3f} & " +
+                        f"{scores['F-score']:.3f}\\")
             output_lines.append(new_line)
         return '\n'.join(output_lines)
 
