@@ -77,9 +77,7 @@ def label_fps_and_fns(strings: str, features: list, feature_chars: list):
     while strings['ref'] and strings['hyp']:
         features_present = {'ref': [], 'hyp': []}
         next_char = {
-            'ref': strings['ref'].pop(0),
-            'hyp': strings['hyp'].pop(0)
-        }
+            'ref': strings['ref'].pop(0), 'hyp': strings['hyp'].pop(0)}
         try:
             assert next_char['ref'].lower() == next_char['hyp'].lower()
         except AssertionError:
