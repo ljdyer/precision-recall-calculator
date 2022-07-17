@@ -105,6 +105,31 @@ class PrecisionRecallCalculator:
     # === WORD ERROR RATE ===
 
     # ====================
+    def show_wer_info(self,
+                      doc_idx: Int_or_Str = 'all',
+                      for_latex: bool = False):
+        """Show minimum edit distance, reference length, and word error rate
+        for either a single document or all documents.
+
+        Optional keyword arguments:
+        ---------------------------
+        doc_idx: Int_or_Str         Either an integer indicating the index of
+                                    the document to show confusion matrices
+                                    for, or 'all' to show confusion matrices
+                                    for all documents in the corpus (the
+                                    default behaviour).
+        for_latex: bool             Whether or not to format the output for
+                                    LaTeX.
+        """
+
+        self.get_wer_info(doc_idx)
+        wer_info = self.wer_info[doc_idx]
+        if for_latex is True:
+            print(rf"\textbf{{WER:}} {wer_info['wer']:.2f}\%\\")
+        else:
+            show_wer_info_table(wer_info)
+
+    # ====================
     def get_wer_info(self, scope: Int_or_Str):
 
         if scope == 'all':
@@ -149,6 +174,24 @@ class PrecisionRecallCalculator:
 
     # === CONFUSION MATRICES ===
 
+        # ====================
+    def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
+        """Show confusion matrices for each feature, for either a
+        single document or all documents.
+
+        Optional keyword arguments:
+        ---------------------------
+        doc_idx: Int_or_Str         Either an integer indicating the index of
+                                    the document to show confusion matrices
+                                    for, or 'all' to show confusion matrices
+                                    for all documents in the corpus (the
+                                    default behaviour).
+        """
+
+        self.get_cms(doc_idx)
+        cms = self.cms[doc_idx]
+        show_cm_tables(cms)
+
     # ====================
     def get_cms(self, scope: Int_or_Str):
 
@@ -188,47 +231,7 @@ class PrecisionRecallCalculator:
         self.cms[doc_idx] = cm_doc
         return cm_doc
 
-    # === DISPLAY INFO ===
-
-    # ====================
-    def show_wer_info(self,
-                      doc_idx: Int_or_Str = 'all',
-                      for_latex: bool = False):
-        """Show minimum edit distance, reference length, and word error rate
-        for either a single document or all documents.
-
-        Optional keyword arguments:
-        ---------------------------
-        doc_idx: Int_or_Str         Either an integer indicating the index of
-                                    the document to show confusion matrices
-                                    for, or 'all' to show confusion matrices
-                                    for all documents in the corpus (the
-                                    default behaviour)."""
-
-        self.get_wer_info(doc_idx)
-        wer_info = self.wer_info[doc_idx]
-        if for_latex is True:
-            print(rf"\textbf{{WER:}} {wer_info['wer']:.2f}\%\\")
-        else:
-            show_wer_info_table(wer_info)
-
-    # ====================
-    def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
-        """Show confusion matrices for each feature, for either a
-        single document or all documents.
-
-        Optional keyword arguments:
-        ---------------------------
-        doc_idx: Int_or_Str         Either an integer indicating the index of
-                                    the document to show confusion matrices
-                                    for, or 'all' to show confusion matrices
-                                    for all documents in the corpus (the
-                                    default behaviour).
-        """
-
-        self.get_cms_doc(doc_idx)
-        cms = self.cms[doc_idx]
-        show_cm_tables(cms)
+    # === PRECISON, RECALL, AND F-SCORE ===
 
     # ====================
     def show_prfs(self,
@@ -244,39 +247,43 @@ class PrecisionRecallCalculator:
                                     the document to show metrics for, or 'all'
                                     to show metrics for all documents in the
                                     corpus (the default behaviour).
+        for_latex: bool             Whether or not to format the output for
+                                    LaTeX.
         """
 
-        self.get_cms_doc(doc_idx)
+        self.get_cms(doc_idx)
         cms = self.cms[doc_idx]
         show_prfs(cms, for_latex)
 
-# # ====================
-# def latex_text_display(self, doc_idx: int, start_char: int = 0,
-#                        chars_per_row: int = 30, num_rows: int = 3):
+    # === DISPLAY INFO ===
 
-#     if start_char != 0:
-#         raise RuntimeError('Start char != 0 not implemented yet!')
-#     strings = {
-#         'ref': list(self.reference[doc_idx].strip()),
-#         'hyp': list(self.hypothesis[doc_idx].strip())
-#     }
-#     labelled = label_fps_and_fns(
-#         strings, self.features, self.feature_chars)
-#     rows = [
-#         [labelled[i] for i in range(a, b)]
-#         for (a, b) in zip(
-#             range(0, chars_per_row*num_rows, chars_per_row),
-#             range(chars_per_row, chars_per_row*(num_rows+1), chars_per_row)
-#         )
-#     ]
-#     for row in rows:
-#         row[0] = self.escape_line_end_space(row[0])
-#         row[-1] = self.escape_line_end_space(row[-1])
-#     rows = [[self.escape_other_spaces(e) for e in row] for row in rows]
-#     final_latex = '\n'.join(
-#         [f"\\texttt{{{''.join(r)}}}\\\\" for r in rows]
-#     )
-#     return final_latex
+    # # ====================
+    # def latex_text_display(self, doc_idx: int, start_char: int = 0,
+    #                        chars_per_row: int = 30, num_rows: int = 3):
+
+    #     if start_char != 0:
+    #         raise RuntimeError('Start char != 0 not implemented yet!')
+    #     strings = {
+    #         'ref': list(self.reference[doc_idx].strip()),
+    #         'hyp': list(self.hypothesis[doc_idx].strip())
+    #     }
+    #     labelled = label_fps_and_fns(
+    #         strings, self.features, self.feature_chars)
+    #     rows = [
+    #         [labelled[i] for i in range(a, b)]
+    #         for (a, b) in zip(
+    #             range(0, chars_per_row*num_rows, chars_per_row),
+    #             range(chars_per_row, chars_per_row*(num_rows+1), chars_per_row)
+    #         )
+    #     ]
+    #     for row in rows:
+    #         row[0] = self.escape_line_end_space(row[0])
+    #         row[-1] = self.escape_line_end_space(row[-1])
+    #     rows = [[self.escape_other_spaces(e) for e in row] for row in rows]
+    #     final_latex = '\n'.join(
+    #         [f"\\texttt{{{''.join(r)}}}\\\\" for r in rows]
+    #     )
+    #     return final_latex
 
 # # ====================
 # @staticmethod
