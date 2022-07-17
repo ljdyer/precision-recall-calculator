@@ -41,7 +41,8 @@ def label_fps_and_fns(chars: str, features: list, feature_chars: list):
             return None
         features_present, chars = get_features_present(
             next_char, chars, features)
-        output_chars.extend(get_next_entries(next_char, features_present))
+        output_chars.extend(get_next_entries(
+            next_char, features_present, features, feature_chars))
     return output_chars
 
 
