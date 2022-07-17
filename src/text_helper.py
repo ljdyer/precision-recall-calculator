@@ -79,6 +79,7 @@ def get_next_entries(next_char: dict,
             next_entries.append(cmd(tfpn_, mbox(feature)))
         elif tfpn_ == 'tp':
             next_entries.append(feature)
+    return next_entries
 
 
 # ====================
