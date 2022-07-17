@@ -3,7 +3,6 @@ import pandas as pd
 from sklearn.metrics import confusion_matrix
 
 from misc_helper import check_same_char, display_or_print
-from src.misc_helper import check_same_char
 
 FEATURE_DISPLAY_NAMES = {
     'CAPITALISATION': "Capitalisation",
