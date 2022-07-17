@@ -130,7 +130,7 @@ class PrecisionRecallCalculator:
         num_edits_all = sum([
             self.wer_info[doc_idx]['num_edits'] for doc_idx in all_doc_idxs
         ])
-        wer_all = wer(len_ref_all, num_edits_all)
+        wer_all = wer(num_edits_all, len_ref_all)
         self.wer_info['all'] = {
             'len_ref': len_ref_all,
             'num_edits': num_edits_all,
