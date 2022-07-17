@@ -24,7 +24,7 @@ class PrecisionRecallCalculator:
                  capitalisation: bool,
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True,
-                 get_wers_on_init: bool = True):
+                 get_wer_info_on_init: bool = True):
         """
         Initialize an instance of the PrecisionRecallCalculator class
 
@@ -55,7 +55,7 @@ class PrecisionRecallCalculator:
                                     time if you do not need precision, recall,
                                     and F-score information or only need it
                                     for a subset of documents.
-        get_wers_on_init: bool      Whether or not to calculate WERs for all
+        get_wer_info_on_init: bool      Whether or not to calculate WERs for all
                                     reference/hypothesis documents on
                                     initialization. Set to False to save time
                                     if you do not need WER information or only
@@ -71,7 +71,7 @@ class PrecisionRecallCalculator:
         self.set_features(capitalisation)
         self.wer_info = {}
         self.cms = {}
-        if get_wers_on_init:
+        if get_wer_info_on_init:
             self.get_wer_info_all()
         if get_cms_on_init:
             self.get_cms_all()
