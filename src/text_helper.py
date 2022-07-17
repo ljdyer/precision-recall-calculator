@@ -126,6 +126,7 @@ def escape_spaces_row(row: str) -> str:
 
     row = escape_row_end_spaces(row)
     row = escape_other_spaces(row)
+    return row
 
 
 # ====================
