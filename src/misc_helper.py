@@ -88,7 +88,6 @@ def display_or_print_html(html: str):
     script is running from a notebook or not."""
 
     if is_running_from_ipython():
-        print("Here.")
-        HTML("<hl>ddd")
+        display(HTML(html))
     else:
         print(html)
