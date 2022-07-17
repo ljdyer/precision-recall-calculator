@@ -89,6 +89,6 @@ def display_or_print_html(html: str):
 
     if is_running_from_ipython():
         print("Here.")
-        HTML(html)
+        HTML("<hl>ddd")
     else:
         print(html)
