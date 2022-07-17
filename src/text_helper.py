@@ -1,31 +1,30 @@
-from messages import WARNING_DIFFERENT_CHARS
+from misc_helper import check_same_char
+
 
 # ====================
-def latex_text_display(self,
-                       ref: str,
+def latex_text_display(ref: str,
                        hyp: str,
                        features: list,
                        feature_chars: list,
+                       start_char: int = 0,
                        chars_per_row: int = 30,
                        num_rows: int = 3):
 
-    strings = {
-        'ref': list(self.reference[doc_idx].strip()),
-        'hyp': list(self.hypothesis[doc_idx].strip())
-    }
-    labelled = label_fps_and_fns(
-        strings, self.features, self.feature_chars)
+    chars = {'ref': list(ref), 'hyp': list(hyp)}
+    labelled = label_fps_and_fns(chars, features, feature_chars)
+    row_char_ranges = zip(
+        range(start_char, start_char + chars_per_row*num_rows, chars_per_row),
+        range(
+            start_char + chars_per_row,
+            start_char + (chars_per_row*(num_rows+1)),
+            chars_per_row
+        )
+    )
     rows = [
         [labelled[i] for i in range(a, b)]
-        for (a, b) in zip(
-            range(0, chars_per_row*num_rows, chars_per_row),
-            range(chars_per_row, chars_per_row*(num_rows+1), chars_per_row)
-        )
+        for (a, b) in row_char_ranges
     ]
-    for row in rows:
-        row[0] = self.escape_line_end_space(row[0])
-        row[-1] = self.escape_line_end_space(row[-1])
-    rows = [[self.escape_other_spaces(e) for e in row] for row in rows]
+    rows = [escape_spaces_row(row) for row in rows]
     final_latex = '\n'.join(
         [f"\\texttt{{{''.join(r)}}}\\\\" for r in rows]
     )
@@ -33,56 +32,110 @@ def latex_text_display(self,
 
 
 # ====================
-def label_fps_and_fns(strings: str, features: list, feature_chars: list):
+def label_fps_and_fns(chars: str, features: list, feature_chars: list):
 
     output_chars = []
-    while strings['ref'] and strings['hyp']:
-        features_present = {'ref': [], 'hyp': []}
-        next_char = {
-            'ref': strings['ref'].pop(0), 'hyp': strings['hyp'].pop(0)}
-        try:
-            assert next_char['ref'].lower() == next_char['hyp'].lower()
-        except AssertionError:
-            error_msg = WARNING_DIFFERENT_CHARS.format(
-                doc_idx="UNKNOWN",
-                ref_str=(next_char['ref'] + ''.join(strings['ref'][:10])),
-                hyp_str=(next_char['hyp'] + ''.join(strings['hyp'][:10]))
-            )
-            print(error_msg)
+    while chars['ref'] and chars['hyp']:
+        next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
+        if check_same_char(next_char, chars) is not True:
             return None
-        for string in strings.keys():
-            if ('CAPITALISATION' in features
-               and next_char[string].isupper()):
-                features_present[string].append('CAPITALISATION')
-            while (len(strings[string]) > 0
-                    and strings[string][0] in features):
-                features_present[string].append(strings[string].pop(0))
-        if 'CAPITALISATION' in features:
-            if ('CAPITALISATION' in features_present['ref']
-               and 'CAPITALISATION' not in features_present['hyp']):
-                output_chars.append(f"\\fn{{{next_char['hyp']}}}")
-            elif ('CAPITALISATION' not in features_present['ref']
-                    and 'CAPITALISATION' in features_present['hyp']):
-                output_chars.append(f"\\fp{{{next_char['hyp']}}}")
-            else:
-                output_chars.append(next_char['hyp'])
-        else:
-            output_chars.append(next_char['hyp'])
-        for feature in feature_chars:
-            if (feature in features_present['ref']
-               and feature not in features_present['hyp']):
-                output_chars.append(f'\\fn{{\\mbox{{{feature}}}}}')
-            elif (feature not in features_present['ref']
-                    and feature in features_present['hyp']):
-                output_chars.append(f'\\fp{{\\mbox{{{feature}}}}}')
-            elif (feature in features_present['ref']
-                    and feature in features_present['hyp']):
-                output_chars.append(feature)
+        features_present, chars = get_features_present(
+            next_char, chars, features)
+        output_chars.extend(get_next_entries(next_char, features_present))
     return output_chars
 
 
 # ====================
-def escape_line_end_space(entry: str):
+def get_features_present(next_char: dict, chars: dict, features: list) -> dict:
+
+    features_present = {'ref': [], 'hyp': []}
+    for ref_or_hyp in chars.keys():
+        if 'CAPITALISATION' in features and next_char[ref_or_hyp].isupper():
+            features_present[ref_or_hyp].append('CAPITALISATION')
+        while len(chars[ref_or_hyp]) > 0 and chars[ref_or_hyp][0] in features:
+            features_present[ref_or_hyp].append(chars[ref_or_hyp].pop(0))
+    return features_present, chars
+
+
+# ====================
+def get_next_entries(next_char: dict,
+                     features_present: dict,
+                     features: list,
+                     feature_chars: list) -> list:
+
+    next_entries = []
+    if 'CAPITALISATION' in features:
+        tfpn_ = tfpn('CAPITALISATION', features_present)
+        if tfpn_ in ['fn', 'fp']:
+            next_entries.append(cmd(tfpn, next_char['hyp']))
+        else:
+            next_entries.append(next_char['hyp'])
+    else:
+        next_entries.append(next_char['hyp'])
+    for feature in feature_chars:
+        tfpn_ = tfpn(feature, features_present)
+        if tfpn_ in ['fn', 'fp']:
+            next_entries.append(cmd(tfpn_, mbox(feature)))
+        elif tfpn_ == 'tp':
+            next_entries.append(feature)
+
+
+# ====================
+def tfpn(feature: str, features_present: dict) -> str:
+
+    in_ref = feature in features_present['ref']
+    in_hyp = feature in features_present['hyp']
+    if in_hyp and in_ref:
+        return 'tp'
+    elif in_ref:
+        return 'fn'
+    elif in_hyp:
+        return 'fp'
+    else:
+        return 'tn'
+
+
+# ====================
+def cmd(tag: str, char: str) -> str:
+
+    return f"\\{tag}{{{char}}}"
+
+
+# ====================
+def mbox(char: str) -> str:
+
+    return cmd('mbox', char)
+
+
+# ====================
+def fn(char: str) -> str:
+
+    return cmd('fn', char)
+
+
+# ====================
+def fp(char: str) -> str:
+
+    return cmd('fp', char)
+
+
+# ====================
+def escape_spaces_row(row: str) -> str:
+
+    row = escape_row_end_spaces(row)
+    row = escape_other_spaces(row)
+
+
+# ====================
+def escape_row_end_spaces(row: str) -> str:
+
+    row[0] = escape_row_end_space(row[0])
+    row[-1] = escape_row_end_space(row[-1])
+    return row
+
+
+# ====================
+def escape_row_end_space(entry: str) -> str:
 
     if entry == ' ':
         return r"\Verb+{\ }+"
@@ -91,7 +144,14 @@ def escape_line_end_space(entry: str):
 
 
 # ====================
-def escape_other_spaces(entry: str):
+def escape_other_spaces(row: str) -> str:
+
+    row = [escape_other_space(e) for e in row]
+    return row
+
+
+# ====================
+def escape_other_space(entry: str) -> str:
 
     if entry == ' ':
         return r"{\ }"

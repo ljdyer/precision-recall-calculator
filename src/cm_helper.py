@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from messages import WARNING_DIFFERENT_CHARS
-from misc_helper import display_or_print
+from misc_helper import check_same_char, display_or_print
+from src.misc_helper import check_same_char
 
 FEATURE_DISPLAY_NAMES = {
     'CAPITALISATION': "Capitalisation",
@@ -28,15 +28,7 @@ def cms(ref: str, hyp: str, features: list, doc_idx: int):
     features_present = {'ref': [], 'hyp': []}
     while chars['ref'] and chars['hyp']:
         next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
-        try:
-            assert next_char['ref'].lower() == next_char['hyp'].lower()
-        except AssertionError:
-            error_msg = WARNING_DIFFERENT_CHARS.format(
-                doc_idx=doc_idx,
-                ref_str=(next_char['ref'] + ''.join(chars['ref'][:10])),
-                hyp_str=(next_char['hyp'] + ''.join(chars['hyp'][:10]))
-            )
-            print(error_msg)
+        if check_same_char(next_char, chars, doc_idx) is not True:
             return None
         for string in chars.keys():
             features_present[string].append([])
@@ -107,7 +99,6 @@ def show_prfs_latex(prfs: dict):
 # ====================
 def prfs_all_features(cms, for_latex: bool = False):
 
-    print(cms)
     prfs = {
         feature_display_name(feature, for_latex):
             prf_single_feature(cm)

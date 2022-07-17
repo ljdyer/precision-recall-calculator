@@ -10,6 +10,7 @@ from messages import (ERROR_NON_EQUAL_LENGTH, MESSAGE_CALCULATING_ALL_WERS,
 from misc_helper import (Int_or_Str, Str_or_List, Str_or_List_or_Series,
                          get_tqdm, str_or_list_or_series_to_list)
 from wer_helper import show_wer_info_table, wer, wer_info
+from text_helper import latex_text_display
 
 tqdm_ = get_tqdm()
 
@@ -256,3 +257,17 @@ class PrecisionRecallCalculator:
         show_prfs(cms, for_latex)
 
     # === TEXT_DISPLAY ===
+
+    # ====================
+    def text_display_latex(self,
+                           doc_idx: int,
+                           start_char: int = 0,
+                           chars_per_row: int = 30,
+                           num_rows: int = 3):
+
+        ref = self.reference[doc_idx].strip()
+        hyp = self.hypothesis[doc_idx].strip()
+        print(latex_text_display(
+            ref, hyp, self.features, self.feature_chars,
+            start_char, chars_per_row, num_rows
+        ))

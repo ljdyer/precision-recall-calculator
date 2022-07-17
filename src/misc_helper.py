@@ -12,6 +12,23 @@ Str_or_List_or_Series = Union[str, list, pd.Series]
 
 
 # ====================
+def check_same_char(next_char: dict, chars: dict,
+                    doc_idx: str = 'UNKNOWN') -> bool:
+
+    try:
+        assert next_char['ref'].lower() == next_char['hyp'].lower()
+        return True
+    except AssertionError:
+        error_msg = WARNING_DIFFERENT_CHARS.format(
+            doc_idx=doc_idx,
+            ref_str=(next_char['ref'] + ''.join(chars['ref'][:10])),
+            hyp_str=(next_char['hyp'] + ''.join(chars['hyp'][:10]))
+        )
+        print(error_msg)
+        return False
+
+
+# ====================
 def str_or_list_or_series_to_list(
      input_: Str_or_List_or_Series) -> list:
 
