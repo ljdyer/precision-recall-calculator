@@ -7,6 +7,9 @@ HTML_STYLE = """<style>
 .fn{
     background_color: lightgray
 }
+pre {
+  white-space: pre-wrap;
+}
 </style>"""
 
 
@@ -49,7 +52,7 @@ def html_text_display(ref: str,
     chars = {'ref': list(ref), 'hyp': list(hyp)}
     labelled = label_fps_and_fns(chars, features,
                                  feature_chars, for_latex=False)
-    html = HTML_STYLE + f"<pre>{''.join(labelled)}</pre>"
+    html = HTML_STYLE + f"{''.join(labelled)}"
     display_or_print_html(html)
 
 
