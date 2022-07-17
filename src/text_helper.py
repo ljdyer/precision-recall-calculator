@@ -6,6 +6,7 @@ HTML_STYLE = """<style>
 }
 .fn{
     background-color: lightgray
+    color: black
 }
 pre {
   white-space: pre-wrap;
