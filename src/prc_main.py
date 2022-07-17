@@ -123,7 +123,7 @@ class PrecisionRecallCalculator:
             if doc_idx not in self.wer_info:
                 self.wer_info[doc_idx] = self.get_wer_info_doc(doc_idx)
         # Get overall WER info
-        all_doc_idxs = range(len(self.reference))
+        all_doc_idxs = list(range(len(self.reference)))
         len_ref_all = sum([
             self.wer_info[doc_idx]['len_ref'] for doc_idx in all_doc_idxs
         ])
