@@ -49,8 +49,7 @@ def html_text_display(ref: str,
     chars = {'ref': list(ref), 'hyp': list(hyp)}
     labelled = label_fps_and_fns(chars, features,
                                  feature_chars, for_latex=False)
-    html = ''.join(labelled)
-    print(html)
+    html = HTML_STYLE + ''.join(labelled)
     display_or_print_html(html)
 
 
