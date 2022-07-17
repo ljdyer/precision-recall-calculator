@@ -208,7 +208,7 @@ class PrecisionRecallCalculator:
         self.get_wer_info(doc_idx)
         wer_info = self.wer_info[doc_idx]
         if for_latex is True:
-            return rf"\textbf{{WER:}} {wer_info['wer']:.2f}\%\\"
+            print(rf"\textbf{{WER:}} {wer_info['wer']:.2f}\%\\")
         else:
             show_wer_info_table(wer_info)
 
