@@ -216,9 +216,9 @@ class PrecisionRecallCalculator:
                             r"\head{F-score}\\")
         output_lines.append(r"\hline")
         for feature, scores in feature_scores.items():
-            new_line = (f"{feature} & {scores['Precision']:.3f} & " +
-                        f"{scores['Recall']:.3f} & " +
-                        f"{scores['F-score']:.3f}\\")
+            new_line = (rf"{feature} & {scores['Precision']:.3f} & " +
+                        rf"{scores['Recall']:.3f} & " +
+                        rf"{scores['F-score']:.3f}\\")
             output_lines.append(new_line)
         return '\n'.join(output_lines)
 
