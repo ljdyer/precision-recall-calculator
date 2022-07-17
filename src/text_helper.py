@@ -38,8 +38,11 @@ def html_text_display(ref: str,
                       feature_chars: list):
 
     chars = {'ref': list(ref), 'hyp': list(hyp)}
-    labelled = label_fps_and_fns(chars, features, feature_chars)
-    display_or_print_html(labelled)
+    labelled = label_fps_and_fns(chars, features, feature_chars, for_latex=False)
+    html = 
+    ''.join(labelled)
+
+    display_or_print_html(html)
 
 
 # ====================
@@ -117,7 +120,7 @@ def tfpn(feature: str, features_present: dict) -> str:
 # ====================
 def span_class(class_: str, char: str) -> str:
 
-    return f'<span class="{class_}">{char}<class>'
+    return f'<span class="{class_}">{char}</span>'
 
 
 # ====================
