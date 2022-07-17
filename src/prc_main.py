@@ -121,9 +121,9 @@ class PrecisionRecallCalculator:
         print(MESSAGE_CALCULATING_ALL_WERS)
         for doc_idx in tqdm_(range(len(self.hypothesis))):
             if doc_idx not in self.wer_info:
-                self.wer_info[doc_idx] = self.get_wer_info_doc(doc_idx)
+                self.get_wer_info_doc(doc_idx)
         # Get overall WER info
-        all_doc_idxs = list(range(len(self.reference)))
+        all_doc_idxs = range(len(self.reference))
         len_ref_all = sum([
             self.wer_info[doc_idx]['len_ref'] for doc_idx in all_doc_idxs
         ])
@@ -144,7 +144,8 @@ class PrecisionRecallCalculator:
 
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
-        self.wer_info[doc_idx] = wer_info(ref, hyp)
+        wer_info_ = wer_info(ref, hyp)
+        self.wer_info[doc_idx] = wer_info_
 
     # === CONFUSION MATRICES ===
 
@@ -164,9 +165,8 @@ class PrecisionRecallCalculator:
         print(MESSAGE_GETTING_ALL_CMS)
         for doc_idx in tqdm_(range(len(self.hypothesis))):
             if doc_idx not in self.cms:
-                self.cms[doc_idx] = \
-                    self.get_cms_doc(doc_idx)
-                all_docs = {}
+                self.get_cms_doc(doc_idx)
+        all_docs = {}
         # Get overall confusion matrices
         for f in self.features + ['all']:
             all_docs[f] = \
