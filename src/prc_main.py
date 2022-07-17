@@ -55,8 +55,8 @@ class PrecisionRecallCalculator:
                                     time if you do not need precision, recall,
                                     and F-score information or only need it
                                     for a subset of documents.
-        get_wer_info_on_init: bool      Whether or not to calculate WERs for all
-                                    reference/hypothesis documents on
+        get_wer_info_on_init:       Whether or not to calculate WERs for all
+            bool                    reference/hypothesis documents on
                                     initialization. Set to False to save time
                                     if you do not need WER information or only
                                     need WER information for a subset of
@@ -104,6 +104,7 @@ class PrecisionRecallCalculator:
 
     # === WORD ERROR RATE ===
 
+    # ====================
     def get_wer_info(self, scope: Int_or_Str):
 
         if scope == 'all':
@@ -193,7 +194,7 @@ class PrecisionRecallCalculator:
     def show_wer_info(self,
                       doc_idx: Int_or_Str = 'all',
                       for_latex: bool = False):
-        """Show minimum edit distance, reference length, and word accuracy
+        """Show minimum edit distance, reference length, and word error rate
         for either a single document or all documents.
 
         Optional keyword arguments:

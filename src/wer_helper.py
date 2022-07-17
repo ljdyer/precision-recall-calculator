@@ -52,12 +52,12 @@ def show_wer_info_table(wer_info: dict):
     row_labels = [
         'Length of reference (words)',
         'Minimum edit distance (S+D+I)',
-        'Word accuracy (%)'
+        'Word error rate (%)'
     ]
     wer_info_ = [
         f"{wer_info['len_ref']:,}",
         f"{wer_info['num_edits']:,}",
-        f"{(wer_info['acc']*100):.3f}%"
+        f"{(wer_info['err']*100):.3f}%"
     ]
     display_or_print(pd.DataFrame(
         wer_info_, index=row_labels, columns=['Value']))
