@@ -1,45 +1,14 @@
-"""
-helper.py
-
-Helper functions for PrecisionRecallCalculator class
-"""
-
 from typing import Any, Union
 
 import pandas as pd
 from tqdm import tqdm as non_notebook_tqdm
 from tqdm.notebook import tqdm as notebook_tqdm
-import numpy as np
+
+from messages import ERROR_REF_OR_HYP_TYPE, WARNING_DIFFERENT_CHARS
 
 Int_or_Str = Union[int, str]
 Str_or_List = Union[str, list]
 Str_or_List_or_Series = Union[str, list, pd.Series]
-
-NON_EQUAL_LENGTH_ERROR = \
-    "Hypothesis and reference lists must have equal length."
-WARNING_DIFFERENT_CHARS = """Different characters found between reference and \
-hypothesis strings in document index: {doc_idx}! \
-(Reference: "{ref_str}"; Hypothesis: "{hyp_str}"). \
-Skipping this document (returning None)."""
-INIT_COMPLETE_MSG = "Initialisation complete."
-REF_OR_HYP_TYPE_ERROR = """
-reference and hypothesis parameters must have type list, str, \
-or pandas.Series"""
-
-FEATURE_DISPLAY_NAMES = {
-    'CAPITALISATION': "Capitalisation",
-    ' ': "Spaces (' ')",
-    ',': "Commas (',')",
-    '.': "Periods ('.')",
-    'all': 'All features'
-}
-FEATURE_DISPLAY_NAMES_LATEX = {
-    'CAPITALISATION': "CAPS",
-    ' ': r"Spaces ('{\ }')",
-    ',': "Commas (',')",
-    '.': "Periods ('.')",
-    'all': 'All'
-}
 
 
 # ====================
@@ -53,7 +22,7 @@ def str_or_list_or_series_to_list(
     elif isinstance(input_, list):
         return input_
     else:
-        raise TypeError(REF_OR_HYP_TYPE_ERROR)
+        raise TypeError(ERROR_REF_OR_HYP_TYPE)
 
 
 # ====================
@@ -139,35 +108,3 @@ def label_fps_and_fns(strings: str, features: list, feature_chars: list):
                     and feature in features_present['hyp']):
                 output_chars.append(feature)
     return output_chars
-
-
-# ====================
-def precision_recall_fscore_from_cm(cm: np.ndarray):
-    """Calculate precision, recall, and F-score from a confusion matrix."""
-
-    tp = float(cm[0][0])
-    tn = float(cm[1][1])
-    fp = float(cm[1][0])
-    fn = float(cm[0][1])
-    try:
-        precision = tp / (tp + fp)
-    except ZeroDivisionError:
-        precision = 'N/A'
-    try:
-        recall = tp / (tp + fn)
-    except ZeroDivisionError:
-        recall = 'N/A'
-    try:
-        fscore = (2*precision*recall) / (precision+recall)
-    except (TypeError, ZeroDivisionError):
-        fscore = 'N/A'
-    try:
-        accuracy = (tp + tn) / (tp + tn + fp + fn)
-    except ZeroDivisionError:
-        accuracy = 'N/A'
-    return {
-        'Precision': precision,
-        'Recall': recall,
-        'F-score': fscore,
-        'Accuracy': accuracy
-    }
