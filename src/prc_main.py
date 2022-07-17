@@ -11,7 +11,8 @@ from sklearn.metrics import confusion_matrix
 from prc_helper import (FEATURE_DISPLAY_NAMES, INIT_COMPLETE_MSG,
                         NON_EQUAL_LENGTH_ERROR, REF_OR_HYP_TYPE_ERROR,
                         WARNING_DIFFERENT_CHARS, Int_or_Str, Str_or_List,
-                        Str_or_List_or_Series, display_or_print, get_tqdm)
+                        Str_or_List_or_Series, display_or_print, get_tqdm,
+                        label_fps_and_fns)
 
 tqdm_ = get_tqdm()
 
@@ -288,7 +289,7 @@ class PrecisionRecallCalculator:
             'ref': list(self.reference[doc_idx].strip()),
             'hyp': list(self.hypothesis[doc_idx].strip())
         }
-        labelled = self.label_fps_and_fns(
+        labelled = label_fps_and_fns(
             strings, self.features, self.feature_chars)
         rows = [
             [labelled[i] for i in range(a, b)]
