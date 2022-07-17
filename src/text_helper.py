@@ -1,5 +1,14 @@
 from misc_helper import check_same_char, display_or_print_html
 
+HTML_STYLE = """<style>
+.fp{
+    background_color: gray
+}
+.fn{
+    background_color: lightgray
+}
+</style>"""
+
 
 # ====================
 def latex_text_display(ref: str,
@@ -38,8 +47,10 @@ def html_text_display(ref: str,
                       feature_chars: list):
 
     chars = {'ref': list(ref), 'hyp': list(hyp)}
-    labelled = label_fps_and_fns(chars, features, feature_chars, for_latex=False)
+    labelled = label_fps_and_fns(chars, features,
+                                 feature_chars, for_latex=False)
     html = ''.join(labelled)
+    print(html)
     display_or_print_html(html)
 
 
