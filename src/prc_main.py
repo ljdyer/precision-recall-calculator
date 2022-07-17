@@ -10,7 +10,7 @@ from messages import (ERROR_NON_EQUAL_LENGTH, MESSAGE_CALCULATING_ALL_WERS,
 from misc_helper import (Int_or_Str, Str_or_List, Str_or_List_or_Series,
                          get_tqdm, str_or_list_or_series_to_list)
 from wer_helper import show_wer_info_table, wer, wer_info
-from text_helper import latex_text_display
+from text_helper import latex_text_display, html_text_display
 
 tqdm_ = get_tqdm()
 
