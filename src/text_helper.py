@@ -68,7 +68,7 @@ def get_next_entries(next_char: dict,
     if 'CAPITALISATION' in features:
         tfpn_ = tfpn('CAPITALISATION', features_present)
         if tfpn_ in ['fn', 'fp']:
-            next_entries.append(cmd(tfpn, next_char['hyp']))
+            next_entries.append(cmd(tfpn_, next_char['hyp']))
         else:
             next_entries.append(next_char['hyp'])
     else:
