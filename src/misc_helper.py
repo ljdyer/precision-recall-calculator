@@ -3,6 +3,10 @@ from typing import Any, Union
 import pandas as pd
 from tqdm import tqdm as non_notebook_tqdm
 from tqdm.notebook import tqdm as notebook_tqdm
+try:
+    from iPython.core.display import HTML
+except:
+    pass
 
 from messages import ERROR_REF_OR_HYP_TYPE, WARNING_DIFFERENT_CHARS
 
@@ -76,3 +80,14 @@ def display_or_print(obj: Any):
         display(obj)
     else:
         print(obj)
+
+
+# ====================
+def display_or_print_html(html: str):
+    """'print' or 'display' an object, depending on whether the current
+    script is running from a notebook or not."""
+
+    if is_running_from_ipython():
+        HTML(html)
+    else:
+        print(html)

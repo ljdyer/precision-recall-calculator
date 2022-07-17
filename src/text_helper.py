@@ -1,4 +1,4 @@
-from misc_helper import check_same_char
+from misc_helper import check_same_char, display_or_print_html
 
 
 # ====================
@@ -32,7 +32,21 @@ def latex_text_display(ref: str,
 
 
 # ====================
-def label_fps_and_fns(chars: str, features: list, feature_chars: list):
+def html_text_display(ref: str,
+                      hyp: str,
+                      features: list,
+                      feature_chars: list):
+
+    chars = {'ref': list(ref), 'hyp': list(hyp)}
+    labelled = label_fps_and_fns(chars, features, feature_chars)
+    display_or_print_html(labelled)
+
+
+# ====================
+def label_fps_and_fns(chars: str,
+                      features: list,
+                      feature_chars: list,
+                      for_latex: bool = False) -> str:
 
     output_chars = []
     while chars['ref'] and chars['hyp']:
@@ -42,7 +56,7 @@ def label_fps_and_fns(chars: str, features: list, feature_chars: list):
         features_present, chars = get_features_present(
             next_char, chars, features)
         output_chars.extend(get_next_entries(
-            next_char, features_present, features, feature_chars))
+            next_char, features_present, features, feature_chars, for_latex))
     return output_chars
 
 
@@ -62,13 +76,16 @@ def get_features_present(next_char: dict, chars: dict, features: list) -> dict:
 def get_next_entries(next_char: dict,
                      features_present: dict,
                      features: list,
-                     feature_chars: list) -> list:
+                     feature_chars: list,
+                     for_latex: bool = False) -> list:
 
+    class_label = cmd if for_latex else span_class
+    char_box = mbox if for_latex else lambda x: x
     next_entries = []
     if 'CAPITALISATION' in features:
         tfpn_ = tfpn('CAPITALISATION', features_present)
         if tfpn_ in ['fn', 'fp']:
-            next_entries.append(cmd(tfpn_, next_char['hyp']))
+            next_entries.append(class_label(tfpn_, next_char['hyp']))
         else:
             next_entries.append(next_char['hyp'])
     else:
@@ -76,7 +93,7 @@ def get_next_entries(next_char: dict,
     for feature in feature_chars:
         tfpn_ = tfpn(feature, features_present)
         if tfpn_ in ['fn', 'fp']:
-            next_entries.append(cmd(tfpn_, mbox(feature)))
+            next_entries.append(class_label(tfpn_, char_box(feature)))
         elif tfpn_ == 'tp':
             next_entries.append(feature)
     return next_entries
@@ -95,6 +112,12 @@ def tfpn(feature: str, features_present: dict) -> str:
         return 'fp'
     else:
         return 'tn'
+
+
+# ====================
+def span_class(class_: str, char: str) -> str:
+
+    return f'<span class="{class_}">{char}<class>'
 
 
 # ====================
