@@ -91,7 +91,7 @@ class PrecisionRecallCalculator:
 
         if capitalisation:
             self.features = \
-                self.feature_chars.copy() + ['CAPITALISATION']
+                ['CAPITALISATION'] + self.feature_chars.copy()
         else:
             self.features = self.feature_chars.copy()
 
