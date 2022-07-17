@@ -2,10 +2,10 @@ from misc_helper import check_same_char, display_or_print_html
 
 HTML_STYLE = """<style>
 .fp{
-    background_color: gray
+    background-color: gray
 }
 .fn{
-    background_color: lightgray
+    background-color: lightgray
 }
 pre {
   white-space: pre-wrap;
@@ -52,7 +52,7 @@ def html_text_display(ref: str,
     chars = {'ref': list(ref), 'hyp': list(hyp)}
     labelled = label_fps_and_fns(chars, features,
                                  feature_chars, for_latex=False)
-    html = HTML_STYLE + f"{''.join(labelled)}"
+    html = HTML_STYLE + f"<pre>{''.join(labelled)}</pre>"
     display_or_print_html(html)
 
 
