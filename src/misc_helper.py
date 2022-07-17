@@ -4,7 +4,7 @@ import pandas as pd
 from tqdm import tqdm as non_notebook_tqdm
 from tqdm.notebook import tqdm as notebook_tqdm
 try:
-    from iPython.core.display import HTML
+    from IPython.core.display import HTML
 except:
     pass
 
