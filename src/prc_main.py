@@ -271,3 +271,9 @@ class PrecisionRecallCalculator:
             ref, hyp, self.features, self.feature_chars,
             start_char, chars_per_row, num_rows
         ))
+
+    def text_display_html(self, doc_idx: int):
+
+        ref = self.reference[doc_idx].strip()
+        hyp = self.hypothesis[doc_idx].strip()
+        html_text_display(ref, hyp, self.features, self.feature_chars)
