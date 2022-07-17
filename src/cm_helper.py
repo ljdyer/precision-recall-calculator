@@ -110,8 +110,8 @@ def prfs_all_features(cms, for_latex: bool = False):
     print(cms)
     prfs = {
         feature_display_name(feature, for_latex):
-            prf_single_feature(cms[feature])
-        for feature, cms in cms.items()
+            prf_single_feature(cm)
+        for feature, cm in cms.items()
     }
     return prfs
 

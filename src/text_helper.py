@@ -2,7 +2,10 @@ from messages import WARNING_DIFFERENT_CHARS
 
 # ====================
 def latex_text_display(self,
-                       doc_idx: int,
+                       ref: str,
+                       hyp: str,
+                       features: list,
+                       feature_chars: list,
                        chars_per_row: int = 30,
                        num_rows: int = 3):
 
