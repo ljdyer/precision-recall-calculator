@@ -68,7 +68,7 @@ class PrecisionRecallCalculator:
         self.hypothesis = str_or_list_or_series_to_list(hypothesis)
         if len(self.reference) != len(self.hypothesis):
             raise ValueError(ERROR_NON_EQUAL_LENGTH)
-        self.set_feature_chars(feature_chars)
+        self.feature_chars = list(feature_chars)
         self.set_features(capitalisation)
         self.wer_info = {}
         self.cms = {}
@@ -77,18 +77,6 @@ class PrecisionRecallCalculator:
         if get_cms_on_init:
             self.get_cms_all()
         print(MESSAGE_INIT_COMPLETE)
-
-    # ====================
-    def set_feature_chars(self, feature_chars: Str_or_List):
-        """Set self.feature_chars
-
-        If feature_chars is provided as a string, convert it to a list of
-        characters."""
-
-        if isinstance(feature_chars, str):
-            self.feature_chars = list(feature_chars)
-        else:
-            self.feature_chars = feature_chars
 
     # ====================
     def set_features(self, capitalisation: bool):
