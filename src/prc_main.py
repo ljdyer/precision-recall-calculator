@@ -276,12 +276,13 @@ class PrecisionRecallCalculator:
     def text_display_html(self,
                           doc_idx: int,
                           capitalisation: bool = None,
-                          feature_chars: list = None):
+                          feature_chars: Str_or_List = None):
 
         if capitalisation is None and feature_chars is None:
             features = self.features
             feature_chars = self.feature_chars
         else:
+            feature_chars = list(feature_chars)
             if capitalisation:
                 features = \
                     ['CAPITALISATION'] + feature_chars.copy()
