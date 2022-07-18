@@ -266,6 +266,7 @@ class PrecisionRecallCalculator:
                           capitalisation: bool = None,
                           feature_chars: Str_or_List = None):
 
+        # TODO: Need to pass list of chars to ignore
         if capitalisation is None and feature_chars is None:
             features = self.features
             feature_chars = self.feature_chars

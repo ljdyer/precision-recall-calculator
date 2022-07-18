@@ -52,7 +52,6 @@ def html_text_display(ref: str,
     chars = {'ref': list(ref), 'hyp': list(hyp)}
     labelled = label_fps_and_fns(chars, features,
                                  feature_chars, for_latex=False)
-    print(labelled)
     html = HTML_STYLE + pre(''.join(labelled))
     display_or_print_html(html)
 
@@ -61,11 +60,15 @@ def html_text_display(ref: str,
 def label_fps_and_fns(chars: str,
                       features: list,
                       feature_chars: list,
+                    #   ignore: list,
                       for_latex: bool = False) -> str:
 
     output_chars = []
     while chars['ref'] and chars['hyp']:
+        # TODO: Ignore chars in ignore list
         next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
+        if next_char in ignore:
+            continue
         if check_same_char(next_char, chars) is not True:
             return None
         features_present, chars = get_features_present(
