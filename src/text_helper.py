@@ -67,8 +67,6 @@ def label_fps_and_fns(chars: str,
     while chars['ref'] and chars['hyp']:
         # TODO: Ignore chars in ignore list
         next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
-        if next_char in ignore:
-            continue
         if check_same_char(next_char, chars) is not True:
             return None
         features_present, chars = get_features_present(
