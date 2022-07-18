@@ -272,8 +272,21 @@ class PrecisionRecallCalculator:
             start_char, chars_per_row, num_rows
         ))
 
-    def text_display_html(self, doc_idx: int):
+    # ====================
+    def text_display_html(self,
+                          doc_idx: int,
+                          capitalisation: bool = None,
+                          feature_chars: list = None):
 
+        if capitalisation is None and feature_chars is None:
+            features = self.features
+            feature_chars = self.feature_chars
+        else:
+            if capitalisation:
+                features = \
+                    ['CAPITALISATION'] + feature_chars.copy()
+            else:
+                features = feature_chars.copy()
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
-        html_text_display(ref, hyp, self.features, self.feature_chars)
+        html_text_display(ref, hyp, features, feature_chars)

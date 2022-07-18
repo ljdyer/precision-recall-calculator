@@ -2,11 +2,10 @@ from misc_helper import check_same_char, display_or_print_html
 
 HTML_STYLE = """<style>
 .fp{
-    background-color: gray
+    background-color: green
 }
 .fn{
-    background-color: lightgray
-    color: black
+    background-color: purple
 }
 pre {
   white-space: pre-wrap;
