@@ -53,7 +53,7 @@ def html_text_display(ref: str,
     chars = {'ref': list(ref), 'hyp': list(hyp)}
     labelled = label_fps_and_fns(chars, features,
                                  feature_chars, for_latex=False)
-    html = HTML_STYLE + f"<pre>{''.join(labelled)}</pre>"
+    html = HTML_STYLE + pre(labelled)
     display_or_print_html(html)
 
 
@@ -130,9 +130,15 @@ def tfpn(feature: str, features_present: dict) -> str:
 
 
 # ====================
-def span_class(class_: str, char: str) -> str:
+def span_class(class_: str, inner_html: str) -> str:
 
-    return f'<span class="{class_}">{char}</span>'
+    return f'<span class="{class_}">{inner_html}</span>'
+
+
+# ====================
+def pre(inner_html: str) -> str:
+
+    return f"<pre>{inner_html}</pre>"
 
 
 # ====================
