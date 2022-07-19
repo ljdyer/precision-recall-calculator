@@ -252,25 +252,14 @@ class PrecisionRecallCalculator:
                           start_char: int = None,
                           chars_per_row: int = None,
                           num_rows: int = None,
-                          for_latex: bool = False):
-                        #   capitalisation: bool = None,
-                        #   feature_chars: Str_or_List = None):
+                          for_latex: bool = False,
+                          ignore: list = None):
 
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
-        # if capitalisation is None and feature_chars is None:
-        #     features = self.features
-        #     feature_chars = self.feature_chars
-        # else:
-        #     feature_chars = list(feature_chars)
-        #     if capitalisation:
-        #         features = \
-        #             ['CAPITALISATION'] + feature_chars.copy()
-        #     else:
-        #         features = feature_chars.copy()
         show_text_display_(
             ref, hyp,
             features=self.features, feature_chars=self.feature_chars,
             start_char=start_char, chars_per_row=chars_per_row,
-            num_rows=num_rows, for_latex=for_latex
+            num_rows=num_rows, ignore=ignore, for_latex=for_latex
         )

@@ -1,5 +1,6 @@
 from misc_helper import check_same_char, display_or_print_html
 from messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
+from typing import Tuple
 
 HTML_STYLE = """<style>
 .fp{
@@ -22,10 +23,12 @@ def show_text_display_(ref: str,
                        start_char: int = 0,
                        chars_per_row: int = None,
                        num_rows: int = None,
-                       for_latex: bool = False):
+                       for_latex: bool = False,
+                       ignore: list = None):
 
     chars = {'ref': list(ref), 'hyp': list(hyp)}
-    labelled = label_fps_and_fns(chars, features, feature_chars, for_latex)
+    labelled = label_fps_and_fns(
+        chars, features, feature_chars, ignore, for_latex)
     labelled = labelled[start_char:]
     cpr_nr_given = sum([chars_per_row is not None, num_rows is not None])
     if cpr_nr_given == 1:
@@ -52,15 +55,15 @@ def show_text_display_(ref: str,
 
 
 # ====================
-def label_fps_and_fns(chars: str,
+def label_fps_and_fns(chars: dict,
                       features: list,
                       feature_chars: list,
-                    #   ignore: list,
+                      ignore: list,
                       for_latex: bool = False) -> str:
 
     output_chars = []
     while chars['ref'] and chars['hyp']:
-        # TODO: Ignore chars in ignore list
+        ignored_chars, chars = ignore_features(chars, ignore)
         next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
         if check_same_char(next_char, chars) is not True:
             return None
@@ -68,7 +71,21 @@ def label_fps_and_fns(chars: str,
             next_char, chars, features)
         output_chars.extend(get_next_entries(
             next_char, features_present, features, feature_chars, for_latex))
+        output_chars.extend(list(ignored_chars))
     return output_chars
+
+
+# ====================
+def ignore_features(chars: dict, ignore: list) -> Tuple[str, dict]:
+
+    ignored_chars = ''
+    if 'CAPITALISATION' in ignore and chars['ref'][0].isupper():
+        chars['ref'][0] = chars['ref'][0].lower()
+    while chars['ref'][0] in ignore:
+        ignored_chars = ignored_chars + chars['ref'].pop(0)
+    while chars['hyp'][0] in ignore:
+        chars['hyp'].pop(0)
+    return ignored_chars, chars
 
 
 # ====================
