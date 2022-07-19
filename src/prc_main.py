@@ -10,7 +10,7 @@ from messages import (ERROR_NON_EQUAL_LENGTH, MESSAGE_CALCULATING_ALL_WERS,
 from misc_helper import (Int_or_Str, Str_or_List, Str_or_List_or_Series,
                          get_tqdm, str_or_list_or_series_to_list)
 from wer_helper import show_wer_info_table, wer, wer_info
-from text_helper import latex_text_display, html_text_display
+from text_helper import show_text_display_
 
 tqdm_ = get_tqdm()
 
@@ -268,16 +268,7 @@ class PrecisionRecallCalculator:
         #             ['CAPITALISATION'] + feature_chars.copy()
         #     else:
         #         features = feature_chars.copy()
-        print(text_display(
+        show_text_display_(
             ref, hyp, self.features, self.feature_chars,
             start_char, chars_per_row, num_rows
-        ))
-
-    # ====================
-    def text_display_html(self,
-                          doc_idx: int,
-
-        # TODO: Need to pass list of chars to ignore
-        ref = self.reference[doc_idx].strip()
-        hyp = self.hypothesis[doc_idx].strip()
-        html_text_display(ref, hyp, features, feature_chars)
+        )
