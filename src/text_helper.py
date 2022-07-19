@@ -66,23 +66,23 @@ def label_fps_and_fns(chars: dict,
     output_chars = []
     while chars['ref'] and chars['hyp']:
         next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
-        ignored_chars, chars = ignore_features(chars, ignore)
+        ignored_chars, chars = ignore_chars(chars, ignore)
         if check_same_char(next_char, chars) is not True:
             return None
         features_present, chars = get_features_present(
             next_char, chars, features)
         output_chars.extend(get_next_entries(
             next_char, features_present, features, feature_chars,
-            ignored_chars, for_latex))
+            ignored_chars=ignored_chars,
+            ignore_caps='CAPITALISATION' in ignore,
+            for_latex=for_latex))
     return output_chars
 
 
 # ====================
-def ignore_features(chars: dict, ignore: list) -> Tuple[str, dict]:
+def ignore_chars(chars: dict, ignore: list) -> Tuple[str, dict]:
 
     ignored_chars = []
-    if 'CAPITALISATION' in ignore and chars['hyp'][0].isupper():
-        chars['hyp'][0] = chars['hyp'][0].lower()
     while len(chars['hyp']) > 0 and chars['hyp'][0] in ignore:
         ignored_chars.append(chars['hyp'].pop(0))
     while len(chars['ref']) > 0 and chars['ref'][0] in ignore:
@@ -108,6 +108,7 @@ def get_next_entries(next_char: dict,
                      features: list,
                      feature_chars: list,
                      ignored_chars: list,
+                     ignore_caps: bool,
                      for_latex: bool = False) -> list:
 
     # print(ignored_chars)
@@ -116,10 +117,11 @@ def get_next_entries(next_char: dict,
     next_entries = []
     if 'CAPITALISATION' in features:
         tfpn_ = tfpn('CAPITALISATION', features_present)
-        if tfpn_ in ['fn', 'fp']:
-            next_entries.append(class_label(tfpn_, next_char['hyp']))
-        else:
+        if tfpn_ not in ['fn', 'fp'] or ignore_caps is True:
             next_entries.append(next_char['hyp'])
+        else:
+            next_entries.append(class_label(tfpn_, next_char['hyp']))
+        
     else:
         next_entries.append(next_char['hyp'])
     for feature in feature_chars:
