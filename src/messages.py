@@ -16,3 +16,5 @@ reference and hypothesis parameters must have type list, str, \
 or pandas.Series"""
 ERROR_NON_EQUAL_LENGTH = \
     "Hypothesis and reference lists must have equal length."
+ERROR_CHARS_PER_ROW_AND_NUM_ROWS = \
+    "Either none or both of chars_per_row and num_rows must be specified."

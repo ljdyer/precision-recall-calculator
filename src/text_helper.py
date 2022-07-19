@@ -1,4 +1,5 @@
 from misc_helper import check_same_char, display_or_print_html
+from messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
 
 HTML_STYLE = """<style>
 .fp{
@@ -19,33 +20,36 @@ def show_text_display_(ref: str,
                        features: list,
                        feature_chars: list,
                        start_char: int = 0,
-                       chars_per_row: int = 30,
-                       num_rows: int = 3,
+                       chars_per_row: int = None,
+                       num_rows: int = None,
                        for_latex: bool = False):
 
     chars = {'ref': list(ref), 'hyp': list(hyp)}
     labelled = label_fps_and_fns(chars, features, feature_chars, for_latex)
-    if for_latex is True:
-        row_char_ranges = zip(
-            range(start_char, start_char + chars_per_row*num_rows, chars_per_row),
-            range(
-                start_char + chars_per_row,
-                start_char + (chars_per_row*(num_rows+1)),
-                chars_per_row
+    labelled = labelled[start_char:]
+    cpr_nr_given = sum([chars_per_row is None, num_rows is None])
+    if cpr_nr_given == 1:
+        raise ValueError(ERROR_CHARS_PER_ROW_AND_NUM_ROWS)
+    elif cpr_nr_given == 2:
+        rows = to_rows(labelled, chars_per_row, num_rows)
+        if for_latex is True:
+            rows = [escape_spaces_row(row) for row in rows]
+            final_latex = '\n'.join(
+                [f"\\texttt{{{''.join(r)}}}\\\\" for r in rows]
             )
-        )
-        rows = [
-            [labelled[i] for i in range(a, b)]
-            for (a, b) in row_char_ranges
-        ]
-        rows = [escape_spaces_row(row) for row in rows]
-        final_latex = '\n'.join(
-            [f"\\texttt{{{''.join(r)}}}\\\\" for r in rows]
-        )
-        print(final_latex)
+            print(final_latex)
+        else:
+            final_html = '<br>'.join(''.join(r) for r in rows)
+            display_or_print_html(final_html)
     else:
-        html = HTML_STYLE + pre(''.join(labelled))
-        display_or_print_html(html)
+        if for_latex is True:
+            final_latex = '\n'.join(
+                f"\\texttt{{{''.join(labelled)}}}\\\\"
+            )
+            print(final_latex)
+        else:
+            html = HTML_STYLE + pre(''.join(labelled))
+            display_or_print_html(html)
 
 
 # ====================
@@ -120,6 +124,21 @@ def tfpn(feature: str, features_present: dict) -> str:
         return 'fp'
     else:
         return 'tn'
+
+
+# ====================
+def to_rows(entries: list, chars_per_row: int, num_rows: int) -> list:
+
+    row_char_ranges = zip(
+        range(0, chars_per_row*num_rows, chars_per_row),
+        range(
+            chars_per_row, chars_per_row*(num_rows+1), chars_per_row)
+    )
+    rows = [
+        [entries[i] for i in range(a, b)]
+        for (a, b) in row_char_ranges
+    ]
+    return rows
 
 
 # ====================
