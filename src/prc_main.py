@@ -249,9 +249,9 @@ class PrecisionRecallCalculator:
     # ====================
     def show_text_display(self,
                           doc_idx: int,
-                          start_char: int = 0,
-                          chars_per_row: int = 30,
-                          num_rows: int = 3,
+                          start_char: int = None,
+                          chars_per_row: int = None,
+                          num_rows: int = None,
                           for_latex: bool = False):
                         #   capitalisation: bool = None,
                         #   feature_chars: Str_or_List = None):
@@ -269,6 +269,8 @@ class PrecisionRecallCalculator:
         #     else:
         #         features = feature_chars.copy()
         show_text_display_(
-            ref, hyp, self.features, self.feature_chars,
-            start_char, chars_per_row, num_rows, for_latex
+            ref, hyp,
+            features=self.features, feature_chars=self.feature_chars,
+            start_char=start_char, chars_per_row=chars_per_row,
+            num_rows=num_rows, for_latex=for_latex
         )
