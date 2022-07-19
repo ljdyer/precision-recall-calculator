@@ -87,6 +87,7 @@ def ignore_features(chars: dict, ignore: list) -> Tuple[str, dict]:
         ignored_chars = ignored_chars + chars['ref'].pop(0)
     while chars['hyp'][0] in ignore:
         chars['hyp'].pop(0)
+    print(ignored_chars)
     return ignored_chars, chars
 
 
