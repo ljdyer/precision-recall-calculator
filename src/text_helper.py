@@ -27,7 +27,8 @@ def show_text_display_(ref: str,
     chars = {'ref': list(ref), 'hyp': list(hyp)}
     labelled = label_fps_and_fns(chars, features, feature_chars, for_latex)
     labelled = labelled[start_char:]
-    cpr_nr_given = sum([chars_per_row is None, num_rows is None])
+    cpr_nr_given = sum([chars_per_row is not None, num_rows is not None])
+    print(cpr_nr_given)
     if cpr_nr_given == 1:
         raise ValueError(ERROR_CHARS_PER_ROW_AND_NUM_ROWS)
     elif cpr_nr_given == 2:
