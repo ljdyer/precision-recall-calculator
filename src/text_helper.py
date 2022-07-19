@@ -26,6 +26,8 @@ def show_text_display_(ref: str,
                        for_latex: bool = False,
                        ignore: list = None):
 
+    if ignore is None:
+        ignore = []
     chars = {'ref': list(ref), 'hyp': list(hyp)}
     labelled = label_fps_and_fns(
         chars, features, feature_chars, ignore, for_latex)
