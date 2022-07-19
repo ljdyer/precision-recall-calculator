@@ -72,18 +72,19 @@ def label_fps_and_fns(chars: dict,
         features_present, chars = get_features_present(
             next_char, chars, features)
         output_chars.extend(get_next_entries(
-            next_char, features_present, features, feature_chars, for_latex, ignored_chars))
+            next_char, features_present, features, feature_chars,
+            ignored_chars, for_latex))
     return output_chars
 
 
 # ====================
 def ignore_features(chars: dict, ignore: list) -> Tuple[str, dict]:
 
-    ignored_chars = ''
+    ignored_chars = []
     if 'CAPITALISATION' in ignore and chars['hyp'][0].isupper():
         chars['hyp'][0] = chars['hyp'][0].lower()
     while len(chars['hyp']) > 0 and chars['hyp'][0] in ignore:
-        ignored_chars = ignored_chars + chars['hyp'].pop(0)
+        ignored_chars.append(chars['hyp'].pop(0))
     while len(chars['ref']) > 0 and chars['ref'][0] in ignore:
         chars['ref'].pop(0)
     return ignored_chars, chars
@@ -109,6 +110,7 @@ def get_next_entries(next_char: dict,
                      ignored_chars: list,
                      for_latex: bool = False) -> list:
 
+    # print(ignored_chars)
     class_label = cmd if for_latex else span_class
     char_box = mbox if for_latex else lambda x: x
     next_entries = []
