@@ -121,7 +121,6 @@ def get_next_entries(next_char: dict,
             next_entries.append(next_char['hyp'])
         else:
             next_entries.append(class_label(tfpn_, next_char['hyp']))
-        
     else:
         next_entries.append(next_char['hyp'])
     for feature in feature_chars:
