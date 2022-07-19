@@ -40,7 +40,7 @@ def show_text_display_(ref: str,
             print(final_latex)
         else:
             html = '<br>'.join(''.join(r) for r in rows)
-            final_html = HTML_STYLE + pre(html_rows)
+            final_html = HTML_STYLE + pre(html)
             display_or_print_html(final_html)
     else:
         if for_latex is True:
