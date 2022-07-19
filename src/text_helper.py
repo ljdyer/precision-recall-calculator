@@ -43,9 +43,7 @@ def show_text_display_(ref: str,
             display_or_print_html(final_html)
     else:
         if for_latex is True:
-            final_latex = '\n'.join(
-                f"\\texttt{{{''.join(labelled)}}}\\\\"
-            )
+            final_latex = f"\\texttt{{{''.join(labelled)}}}\\\\"
             print(final_latex)
         else:
             html = HTML_STYLE + pre(''.join(labelled))
