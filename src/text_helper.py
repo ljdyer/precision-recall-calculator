@@ -72,8 +72,7 @@ def label_fps_and_fns(chars: dict,
         features_present, chars = get_features_present(
             next_char, chars, features)
         output_chars.extend(get_next_entries(
-            next_char, features_present, features, feature_chars, for_latex))
-        output_chars.extend(list(ignored_chars))
+            next_char, features_present, features, feature_chars, for_latex, ignored_chars))
     return output_chars
 
 
@@ -107,6 +106,7 @@ def get_next_entries(next_char: dict,
                      features_present: dict,
                      features: list,
                      feature_chars: list,
+                     ignored_chars: list,
                      for_latex: bool = False) -> list:
 
     class_label = cmd if for_latex else span_class
@@ -124,7 +124,7 @@ def get_next_entries(next_char: dict,
         tfpn_ = tfpn(feature, features_present)
         if tfpn_ in ['fn', 'fp']:
             next_entries.append(class_label(tfpn_, char_box(feature)))
-        elif tfpn_ == 'tp':
+        elif tfpn_ == 'tp' or feature in ignored_chars:
             next_entries.append(feature)
     return next_entries
 
