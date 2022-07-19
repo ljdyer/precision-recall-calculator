@@ -65,8 +65,8 @@ def label_fps_and_fns(chars: dict,
 
     output_chars = []
     while chars['ref'] and chars['hyp']:
-        ignored_chars, chars = ignore_features(chars, ignore)
         next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
+        ignored_chars, chars = ignore_features(chars, ignore)
         if check_same_char(next_char, chars) is not True:
             return None
         features_present, chars = get_features_present(
@@ -81,12 +81,12 @@ def label_fps_and_fns(chars: dict,
 def ignore_features(chars: dict, ignore: list) -> Tuple[str, dict]:
 
     ignored_chars = ''
-    if 'CAPITALISATION' in ignore and chars['ref'][0].isupper():
-        chars['ref'][0] = chars['ref'][0].lower()
-    while chars['ref'][0] in ignore:
-        ignored_chars = ignored_chars + chars['ref'].pop(0)
+    if 'CAPITALISATION' in ignore and chars['hyp'][0].isupper():
+        chars['hyp'][0] = chars['hyp'][0].lower()
     while chars['hyp'][0] in ignore:
-        chars['hyp'].pop(0)
+        ignored_chars = ignored_chars + chars['hyp'].pop(0)
+    while chars['ref'][0] in ignore:
+        chars['ref'].pop(0)
     print(ignored_chars)
     return ignored_chars, chars
 
