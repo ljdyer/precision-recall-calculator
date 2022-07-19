@@ -83,12 +83,10 @@ def ignore_features(chars: dict, ignore: list) -> Tuple[str, dict]:
     ignored_chars = ''
     if 'CAPITALISATION' in ignore and chars['hyp'][0].isupper():
         chars['hyp'][0] = chars['hyp'][0].lower()
-    if len(chars['hyp']) > 0:
-        while chars['hyp'][0] in ignore:
-            ignored_chars = ignored_chars + chars['hyp'].pop(0)
-    if len(chars['ref']) > 0:
-        while chars['ref'][0] in ignore:
-            chars['ref'].pop(0)
+    while len(chars['hyp']) > 0 and chars['hyp'][0] in ignore:
+        ignored_chars = ignored_chars + chars['hyp'].pop(0)
+    while len(chars['ref']) > 0 and chars['ref'][0] in ignore:
+        chars['ref'].pop(0)
     return ignored_chars, chars
 
 
