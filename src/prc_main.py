@@ -247,15 +247,28 @@ class PrecisionRecallCalculator:
     # === TEXT_DISPLAY ===
 
     # ====================
-    def text_display_latex(self,
-                           doc_idx: int,
-                           start_char: int = 0,
-                           chars_per_row: int = 30,
-                           num_rows: int = 3):
+    def show_text_display(self,
+                          doc_idx: int,
+                          start_char: int = 0,
+                          chars_per_row: int = 30,
+                          num_rows: int = 3,
+                          for_latex: bool = False):
+                        #   capitalisation: bool = None,
+                        #   feature_chars: Str_or_List = None):
 
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
-        print(latex_text_display(
+        # if capitalisation is None and feature_chars is None:
+        #     features = self.features
+        #     feature_chars = self.feature_chars
+        # else:
+        #     feature_chars = list(feature_chars)
+        #     if capitalisation:
+        #         features = \
+        #             ['CAPITALISATION'] + feature_chars.copy()
+        #     else:
+        #         features = feature_chars.copy()
+        print(text_display(
             ref, hyp, self.features, self.feature_chars,
             start_char, chars_per_row, num_rows
         ))
@@ -263,20 +276,8 @@ class PrecisionRecallCalculator:
     # ====================
     def text_display_html(self,
                           doc_idx: int,
-                          capitalisation: bool = None,
-                          feature_chars: Str_or_List = None):
 
         # TODO: Need to pass list of chars to ignore
-        if capitalisation is None and feature_chars is None:
-            features = self.features
-            feature_chars = self.feature_chars
-        else:
-            feature_chars = list(feature_chars)
-            if capitalisation:
-                features = \
-                    ['CAPITALISATION'] + feature_chars.copy()
-            else:
-                features = feature_chars.copy()
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
         html_text_display(ref, hyp, features, feature_chars)

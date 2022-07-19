@@ -14,46 +14,38 @@ pre {
 
 
 # ====================
-def latex_text_display(ref: str,
+def show_text_display_(ref: str,
                        hyp: str,
                        features: list,
                        feature_chars: list,
                        start_char: int = 0,
                        chars_per_row: int = 30,
-                       num_rows: int = 3):
+                       num_rows: int = 3,
+                       for_latex: bool = False):
 
     chars = {'ref': list(ref), 'hyp': list(hyp)}
-    labelled = label_fps_and_fns(chars, features, feature_chars)
-    row_char_ranges = zip(
-        range(start_char, start_char + chars_per_row*num_rows, chars_per_row),
-        range(
-            start_char + chars_per_row,
-            start_char + (chars_per_row*(num_rows+1)),
-            chars_per_row
+    labelled = label_fps_and_fns(chars, features, feature_chars, for_latex)
+    if for_latex is True:
+        row_char_ranges = zip(
+            range(start_char, start_char + chars_per_row*num_rows, chars_per_row),
+            range(
+                start_char + chars_per_row,
+                start_char + (chars_per_row*(num_rows+1)),
+                chars_per_row
+            )
         )
-    )
-    rows = [
-        [labelled[i] for i in range(a, b)]
-        for (a, b) in row_char_ranges
-    ]
-    rows = [escape_spaces_row(row) for row in rows]
-    final_latex = '\n'.join(
-        [f"\\texttt{{{''.join(r)}}}\\\\" for r in rows]
-    )
-    return final_latex
-
-
-# ====================
-def html_text_display(ref: str,
-                      hyp: str,
-                      features: list,
-                      feature_chars: list):
-
-    chars = {'ref': list(ref), 'hyp': list(hyp)}
-    labelled = label_fps_and_fns(chars, features,
-                                 feature_chars, for_latex=False)
-    html = HTML_STYLE + pre(''.join(labelled))
-    display_or_print_html(html)
+        rows = [
+            [labelled[i] for i in range(a, b)]
+            for (a, b) in row_char_ranges
+        ]
+        rows = [escape_spaces_row(row) for row in rows]
+        final_latex = '\n'.join(
+            [f"\\texttt{{{''.join(r)}}}\\\\" for r in rows]
+        )
+        print(final_latex)
+    else:
+        html = HTML_STYLE + pre(''.join(labelled))
+        display_or_print_html(html)
 
 
 # ====================
