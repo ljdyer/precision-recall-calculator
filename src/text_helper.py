@@ -28,7 +28,6 @@ def show_text_display_(ref: str,
     labelled = label_fps_and_fns(chars, features, feature_chars, for_latex)
     labelled = labelled[start_char:]
     cpr_nr_given = sum([chars_per_row is not None, num_rows is not None])
-    print(cpr_nr_given)
     if cpr_nr_given == 1:
         raise ValueError(ERROR_CHARS_PER_ROW_AND_NUM_ROWS)
     elif cpr_nr_given == 2:
@@ -40,7 +39,8 @@ def show_text_display_(ref: str,
             )
             print(final_latex)
         else:
-            final_html = '<br>'.join(''.join(r) for r in rows)
+            html = '<br>'.join(''.join(r) for r in rows)
+            final_html = HTML_STYLE + pre(html_rows)
             display_or_print_html(final_html)
     else:
         if for_latex is True:
