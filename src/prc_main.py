@@ -270,5 +270,5 @@ class PrecisionRecallCalculator:
         #         features = feature_chars.copy()
         show_text_display_(
             ref, hyp, self.features, self.feature_chars,
-            start_char, chars_per_row, num_rows
+            start_char, chars_per_row, num_rows, for_latex
         )
