@@ -1,8 +1,13 @@
-from jiwer.measures import _get_operation_counts, _preprocess
-from jiwer.transformations import wer_default
-from misc_helper import display_or_print
 import pandas as pd
 
+from messages import WARNING_NO_JIWER
+from misc_helper import display_or_print
+
+try:
+    from jiwer.measures import _get_operation_counts, _preprocess
+    from jiwer.transformations import wer_default
+except ModuleNotFoundError:
+    print(WARNING_NO_JIWER)
 
 # ====================
 def wer_info(ref: str, hyp: str) -> dict:

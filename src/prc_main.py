@@ -4,7 +4,7 @@ main.py
 Main module for PrecisionRecallCalculator class
 """
 
-from cm_helper import cms, show_cm_tables, show_prfs
+from cm_helper import cms, show_cm_tables, show_prfs, prf_single_feature
 from messages import (ERROR_NON_EQUAL_LENGTH, MESSAGE_CALCULATING_ALL_WERS,
                       MESSAGE_GETTING_ALL_CMS, MESSAGE_INIT_COMPLETE)
 from misc_helper import (Int_or_Str, Str_or_List, Str_or_List_or_Series,
@@ -243,6 +243,14 @@ class PrecisionRecallCalculator:
         self.get_cms(doc_idx)
         cms = self.cms[doc_idx]
         show_prfs(cms, for_latex)
+
+    # ====================
+    def get_prf_single_feature(self, doc_idx, feature):
+        """FOR TESTING"""
+
+        self.get_cms(doc_idx)
+        cms = self.cms[doc_idx]
+        return prf_single_feature(cms[feature])
 
     # === TEXT_DISPLAY ===
 

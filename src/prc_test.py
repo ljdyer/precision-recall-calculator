@@ -20,25 +20,25 @@ if __name__ == "__main__":
         'Thisis Senten ce 3'
     ]
     prc = PrecisionRecallCalculator(
-        reference, hypothesis, capitalisation=True, feature_chars='., '
+        reference, hypothesis, capitalisation=True, feature_chars='., ',
+        get_wer_info_on_init=False
     )
 
     sent_0_commas = \
-        prc.precision_recall_fscore_from_cm(prc.confusion_matrices[0][','])
+        prc.get_prf_single_feature(0, ',')
     # No commas in reference sentence, so all scores should be N/A
     assert sent_0_commas['Precision'] == 'N/A'
     assert sent_0_commas['Recall'] == 'N/A'
     assert sent_0_commas['F-score'] == 'N/A'
 
     sent_0_periods = \
-        prc.precision_recall_fscore_from_cm(prc.confusion_matrices[0]['.'])
+        prc.get_prf_single_feature(0, '.')
     # Extra periods should be ignored, so precision is 1.
     assert sent_0_periods['Precision'] == 1
     assert sent_0_periods['Recall'] == 1
     assert sent_0_periods['F-score'] == 1
 
-    sent_1_capitalisation = prc.precision_recall_fscore_from_cm(
-        prc.confusion_matrices[1]['CAPITALISATION'])
+    sent_1_capitalisation = prc.get_prf_single_feature(1, 'CAPITALISATION')
     # 1 true positive, 2 false positives, 0 false negatives
     # Precision is tp/(tp+fp) = 1/(2+1) = 1/3
     # Recall is tp/(tp+fn) = 1/(1+0) = 1
@@ -47,8 +47,7 @@ if __name__ == "__main__":
     assert sent_1_capitalisation['Recall'] == 1
     assert sent_1_capitalisation['F-score'] == 0.5
 
-    sent_2_spaces = \
-        prc.precision_recall_fscore_from_cm(prc.confusion_matrices[2][' '])
+    sent_2_spaces = prc.get_prf_single_feature(2, ' ')
     # 2 true positives, 1 false positive, 1 false negative
     # Precision is tp/(tp+fp) = 2/(2+1) = 2/3
     # Recall is tp/(tp+fn) = 2/(2+1) = 2/3
