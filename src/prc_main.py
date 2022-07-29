@@ -9,6 +9,7 @@ from messages import (ERROR_NON_EQUAL_LENGTH, MESSAGE_CALCULATING_ALL_WERS,
                       MESSAGE_GETTING_ALL_CMS, MESSAGE_INIT_COMPLETE)
 from misc_helper import (Int_or_Str, Str_or_List, Str_or_List_or_Series,
                          get_tqdm, str_or_list_or_series_to_list)
+from src.cm_helper import prfs_all_features
 from wer_helper import show_wer_info_table, wer, wer_info
 from text_helper import show_text_display_
 
@@ -244,6 +245,13 @@ class PrecisionRecallCalculator:
         cms = self.cms[doc_idx]
         show_prfs(cms, for_latex)
 
+    # ====================
+    def get_prfs_all_features(self, doc_idx):
+
+        self.get_cms(doc_idx)
+        cms = self.cms[doc_idx]
+        return prfs_all_features(cms)
+    
     # ====================
     def get_prf_single_feature(self, doc_idx, feature):
         """FOR TESTING"""
