@@ -4,14 +4,14 @@ main.py
 Main module for PrecisionRecallCalculator class
 """
 
-from cm_helper import cms, show_cm_tables, show_prfs, prf_single_feature
+from cm_helper import (cms, prf_single_feature, prfs_all_features,
+                       show_cm_tables, show_prfs)
 from messages import (ERROR_NON_EQUAL_LENGTH, MESSAGE_CALCULATING_ALL_WERS,
                       MESSAGE_GETTING_ALL_CMS, MESSAGE_INIT_COMPLETE)
 from misc_helper import (Int_or_Str, Str_or_List, Str_or_List_or_Series,
                          get_tqdm, str_or_list_or_series_to_list)
-from src.cm_helper import prfs_all_features
-from wer_helper import show_wer_info_table, wer, wer_info
 from text_helper import show_text_display_
+from wer_helper import show_wer_info_table, wer, wer_info
 
 tqdm_ = get_tqdm()
 
