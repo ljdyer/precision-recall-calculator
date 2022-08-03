@@ -246,15 +246,14 @@ class PrecisionRecallCalculator:
         show_prfs(cms, for_latex)
 
     # ====================
-    def get_prfs_all_features(self, doc_idx):
+    def get_prfs_all_features(self, doc_idx: Int_or_Str = 'all'):
 
         self.get_cms(doc_idx)
         cms = self.cms[doc_idx]
         return prfs_all_features(cms)
     
     # ====================
-    def get_prf_single_feature(self, doc_idx, feature):
-        """FOR TESTING"""
+    def get_prf_single_feature(self, feature, doc_idx: Int_or_Str = 'all'):
 
         self.get_cms(doc_idx)
         cms = self.cms[doc_idx]
