@@ -1,5 +1,5 @@
-from misc_helper import check_same_char, display_or_print_html
-from messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
+from metric_getter_helper.misc import check_same_char, display_or_print_html
+from metric_getter_helper.messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
 from typing import Tuple
 
 HTML_STYLE = """<style>

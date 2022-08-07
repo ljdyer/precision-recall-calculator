@@ -1,14 +1,17 @@
+import pickle
 from typing import Any, Union
 
 import pandas as pd
 from tqdm import tqdm as non_notebook_tqdm
 from tqdm.notebook import tqdm as notebook_tqdm
+
 try:
     from IPython.core.display import HTML
 except:
     pass
 
-from messages import ERROR_REF_OR_HYP_TYPE, WARNING_DIFFERENT_CHARS
+from metric_getter_helper.messages import (ERROR_REF_OR_HYP_TYPE,
+                                           WARNING_DIFFERENT_CHARS)
 
 Int_or_Str = Union[int, str]
 Str_or_List = Union[str, list]
@@ -91,3 +94,20 @@ def display_or_print_html(html: str):
         display(HTML(html))
     else:
         print(html)
+
+
+# ====================
+def load_pickle(fp: str) -> Any:
+    """Load a .pickle file and return the data"""
+
+    with open(fp, 'rb') as f:
+        unpickled = pickle.load(f)
+    return unpickled
+
+
+# ====================
+def save_pickle(data: Any, fp: str):
+    """Save data to a .pickle file"""
+
+    with open(fp, 'wb') as f:
+        pickle.dump(data, f)

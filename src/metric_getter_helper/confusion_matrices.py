@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from misc_helper import check_same_char, display_or_print
+from metric_getter_helper.misc import check_same_char, display_or_print
 
 FEATURE_DISPLAY_NAMES = {
     'CAPITALISATION': "Capitalisation",
@@ -72,7 +72,7 @@ def show_cm_tables(cms: dict):
 # ====================
 def show_prfs(cms, for_latex: bool = False):
 
-    prfs = prfs_all_features(cms, for_latex)
+    prfs = prfs_all_features(cms, display_names=True, for_latex=for_latex)
     if for_latex is True:
         show_prfs_latex(prfs)
     else:
@@ -96,13 +96,21 @@ def show_prfs_latex(prfs: dict):
 
 
 # ====================
-def prfs_all_features(cms, for_latex: bool = False):
+def prfs_all_features(cms,
+                      display_names: bool = False,
+                      for_latex: bool = False):
 
-    prfs = {
-        feature_display_name(feature, for_latex):
-            prf_single_feature(cm)
-        for feature, cm in cms.items()
-    }
+    if display_names is True:
+        prfs = {
+            feature_display_name(feature, for_latex):
+                prf_single_feature(cm)
+            for feature, cm in cms.items()
+        }
+    else:
+        prfs = {
+            feature: prf_single_feature(cm)
+            for feature, cm in cms.items()
+        }
     return prfs
 
 

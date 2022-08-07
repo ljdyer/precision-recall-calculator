@@ -4,7 +4,7 @@ test.py
 Basic tests for PrecisionRecallCalculator class
 """
 
-from prc_main import PrecisionRecallCalculator
+from feature_restorer_metric_getter import PrecisionRecallCalculator
 
 # ====================
 if __name__ == "__main__":
@@ -23,22 +23,24 @@ if __name__ == "__main__":
         reference, hypothesis, capitalisation=True, feature_chars='., ',
         get_wer_info_on_init=False
     )
+    prfs = prc.get_prfs(0)
 
-    sent_0_commas = \
-        prc.get_prf_single_feature(0, ',')
+    """TEST 1"""
+    sent_0_commas = prc.get_prfs(0)[',']
     # No commas in reference sentence, so all scores should be N/A
     assert sent_0_commas['Precision'] == 'N/A'
     assert sent_0_commas['Recall'] == 'N/A'
     assert sent_0_commas['F-score'] == 'N/A'
 
-    sent_0_periods = \
-        prc.get_prf_single_feature(0, '.')
+    """TEST 2"""
+    sent_0_periods = prc.get_prfs(0)['.']
     # Extra periods should be ignored, so precision is 1.
     assert sent_0_periods['Precision'] == 1
     assert sent_0_periods['Recall'] == 1
     assert sent_0_periods['F-score'] == 1
 
-    sent_1_capitalisation = prc.get_prf_single_feature(1, 'CAPITALISATION')
+    """TEST 3"""
+    sent_1_capitalisation = prc.get_prfs(1)['CAPITALISATION']
     # 1 true positive, 2 false positives, 0 false negatives
     # Precision is tp/(tp+fp) = 1/(2+1) = 1/3
     # Recall is tp/(tp+fn) = 1/(1+0) = 1
@@ -47,7 +49,8 @@ if __name__ == "__main__":
     assert sent_1_capitalisation['Recall'] == 1
     assert sent_1_capitalisation['F-score'] == 0.5
 
-    sent_2_spaces = prc.get_prf_single_feature(2, ' ')
+    """TEST 4"""
+    sent_2_spaces = prc.get_prfs(2)[' ']
     # 2 true positives, 1 false positive, 1 false negative
     # Precision is tp/(tp+fp) = 2/(2+1) = 2/3
     # Recall is tp/(tp+fn) = 2/(2+1) = 2/3
